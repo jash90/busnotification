@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "534584135151",
+    "firebase_url": "https://busnotification-5d829.firebaseio.com",
+    "project_id": "busnotification-5d829",
+    "storage_bucket": "busnotification-5d829.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534584135151:android:ed34d1bb48bd7c36",
+        "android_client_info": {
+          "package_name": "pl.zimny.busnotification"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534584135151-i0qnrshava1l4pilnorq7feqsj8kbihk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpQdRFepim_zlAOEIcbU21cchAldj2hVo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

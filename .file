@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=My script
+Comment=Test hello world script
+Exec=/home/zimny/Pulpit/studio.sh
+Terminal=false
+Type=Application
