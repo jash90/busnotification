@@ -204,8 +204,12 @@ export default class App extends Component {
                 colors={['#2196F3', '#E3F']}
                 style={{
                 flex: 1,
-                justifyContent: "space-around",
-                alignItems: "center"
+              }}>
+              <View style={{
+                width:"100%",
+                height:"100%",
+                alignItems:"center",
+                justifyContent:"space-around"
               }}>
                 <View
                   style={{
@@ -222,35 +226,40 @@ export default class App extends Component {
                   }}
                     data={this.state.transports}
                     renderItem=
-{
-  ({item}) => item.active
-    ? <LinearGradient
-        colors={['#2196F3', '#E3F']}
-        style={{
-        borderRadius: 20
-      }}>
-<TouchableOpacity onPress = {
-  () => this.select(item)
-}>
-          <Icon
-          name={item.name}
-          style={{
-        paddingLeft: 10,
-        paddingRight: 10,
-        color: "white"
-      }}/>
-</TouchableOpacity>
-      </LinearGradient>
-    : <TouchableOpacity onPress={()=>this.select(item)}>
-        <Icon
-          name={item.name}
-          style={{
-          paddingLeft: 10,
-          paddingRight: 10
-        }}/>
-      </TouchableOpacity>
-}
+                    { ({item}) => item.active 
+                    ? <LinearGradient colors={['#2196F3', '#E3F']} style={{ borderRadius: 20 }}>
+                        <TouchableOpacity onPress = { () => this.select(item) }>
+                          <Icon name={item.name} style={{ paddingLeft: 10, paddingRight: 10, color: "white" }}/>
+                        </TouchableOpacity>
+                      </LinearGradient>
+                    : <TouchableOpacity onPress={()=>this.select(item)}>
+                        <Icon name={item.name} style={{ paddingLeft: 10, paddingRight: 10 }}/>
+                      </TouchableOpacity> }
                     horizontal={true}/>
+                </View>
+              <View
+                style = {{
+                  width: "90%",
+                  height: 60,
+                  backgroundColor: "white",
+                  borderRadius: 20,
+                  flexDirection : "row",
+                  justifyContent:"space-evenly",
+                  alignItems:"center",          
+                }}>
+                <Text>12:67</Text>
+                <Icon name="time"/>
+                </View>
+                <View
+          style = {{
+                  width: "90%",
+                  height: 60,
+                  backgroundColor: "white",
+                  borderRadius: 20,
+                  flexDirection : "row",
+                  justifyContent:"space-evenly",
+                  alignItems:"center",          
+                }} > <Text>12:67</Text> < Icon name = "time" /> </View>
                 </View>
               </LinearGradient>
             </View>
@@ -283,19 +292,22 @@ export default class App extends Component {
       </Container>
     );
   }
-select(value){
-  var tab = [];
-  this.state.transports.forEach((item)=>{
-    var obj = item;
-    if (value!=obj)
-    obj.active=null;
-    else{
-obj.active = true;
-    }
-    tab.push(obj);
-  });
-  this.setState({transports:tab});
-}
+  select(value) {
+    var tab = [];
+    this
+      .state
+      .transports
+      .forEach((item) => {
+        var obj = item;
+        if (value != obj) 
+          obj.active = null;
+        else {
+          obj.active = true;
+        }
+        tab.push(obj);
+      });
+    this.setState({transports: tab});
+  }
 }
 
 var styles = StyleSheet.create({
