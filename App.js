@@ -4,15 +4,17 @@
  * @flow
  */
 
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import {
   Platform,
   StyleSheet,
   View,
   FlatList,
   TouchableOpacity,
-  Modal
-} from 'react-native';
+  Modal, 
+  TextInput
+} from "react-native";
+
 import {
   Container,
   Header,
@@ -26,27 +28,35 @@ import {
   Body,
   Icon,
   Text
-} from 'native-base';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import LinearGradient from 'react-native-linear-gradient';
+} from "native-base";
+
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import LinearGradient from "react-native-linear-gradient";
+import DateTimePicker from "react-native-modal-datetime-picker";
+import Moment from 'moment';
 
 export default class App extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       transports: [
         {
           name: "bus",
           active: true
-        }, {
+        },
+        {
           name: "train"
-        }, {
+        },
+        {
           name: "car"
-        }, {
+        },
+        {
           name: "boat"
-        }, {
+        },
+        {
           name: "jet"
-        }, {
+        },
+        {
           name: "subway"
         }
       ],
@@ -56,51 +66,63 @@ export default class App extends Component {
           direction: "Rzeszów",
           transport: "train",
           active: true
-        }, {
+        },
+        {
           time: 9.15,
           direction: "Rzeszów",
           transport: "car"
-        }, {
+        },
+        {
           time: 10.15,
           direction: "Rzeszów",
           transport: "train"
-        }, {
+        },
+        {
           time: 11.45,
           direction: "Rzeszów",
           transport: "bus"
-        }, {
+        },
+        {
           time: 12.45,
           direction: "Rzeszów",
           transport: "car",
           active: true
-        }, {
+        },
+        {
           time: 13.45,
           direction: "Rzeszów",
           transport: "bus"
-        }, {
+        },
+        {
           time: 14.45,
           direction: "Rzeszów",
           transport: "bus"
-        }, {
+        },
+        {
           time: 15.45,
           direction: "Rzeszów",
           transport: "bus",
           active: true
-        }, {
+        },
+        {
           time: 16.45,
           direction: "Rzeszów",
           transport: "bus"
-        }, {
+        },
+        {
           time: 16.45,
           direction: "Rzeszów",
           transport: "bus"
-        }, {
+        },
+        {
           time: 16.45,
           direction: "Rzeszów",
           transport: "bus"
         }
       ],
-      modalVisible: false
+      modalVisible: false,
+      pickerVisible: false,
+      time : new Date()
     };
   }
 
@@ -108,184 +130,228 @@ export default class App extends Component {
     return (
       <Container>
         <Header
-          androidStatusBarColor='#1E88E5'
-          style={{
-          backgroundColor: '#2196F3'
-        }}>
+          androidStatusBarColor="#1E88E5"
+          style={{ backgroundColor: "#2196F3" }}
+        >
           <Body
-            style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
             <Title>TransportNotifications</Title>
           </Body>
         </Header>
-        <View style={{
-          flex: 1
-        }}>
-
+        <View style={{ flex: 1 }}>
           <FlatList
             data={this.state.busSchedule}
             contentContainerStyle={{
-            alignItems: "center",
-            paddingLeft: 10,
-            paddingRight: 10
-          }}
-            renderItem={({item}) => <View
-            style={{
-            justifyContent: "space-around",
-            alignItems: "center",
-            flexDirection: "row",
-            width: "90%",
-            backgroundColor: "white",
-            borderRadius: 20,
-            padding: 10,
-            marginTop: 15
-          }}>
-            {item.active
-              ? <MaterialIcons name="notifications" size={30} color="#2196F3"/>
-              : <MaterialIcons name="notifications-none" size={30} color="#2196F3"/>}
-            <Icon
-              name={item.transport}
-              style={{
-              color: "#2196F3"
-            }}/>
-            <Text style={{
-              color: "#2196F3"
-            }}>
-              {item.time}
-            </Text>
-            <Text style={{
-              color: "#2196F3"
-            }}>
-              {item.direction}
-            </Text>
-          </View>}/>
+              alignItems: "center",
+              paddingLeft: 10,
+              paddingRight: 10
+            }}
+            renderItem={({ item }) => (
+              <View
+                style={{
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  width: "90%",
+                  backgroundColor: "white",
+                  borderRadius: 20,
+                  padding: 10,
+                  marginTop: 15
+                }}
+              >
+                {item.active ? (
+                  <TouchableOpacity>
+                    <MaterialIcons
+                      name="notifications"
+                      size={30}
+                      color="#2196F3"
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity>
+                    <MaterialIcons
+                      name="notifications-none"
+                      size={30}
+                      color="#2196F3"
+                    />
+                  </TouchableOpacity>
+                )}
+                <Icon name={item.transport} style={{ color: "#2196F3" }} />
+                <Text style={{ color: "#2196F3" }}>{item.time}</Text>
+                <Text style={{ color: "#2196F3" }}>{item.direction}</Text>
+              </View>
+            )}
+          />
           <Modal
             visible={this.state.modalVisible}
             animationType="slide"
             transparent={false}
-            onRequestClose={() => this.setState({
-            modalVisible: !this.state.modalVisible
-          })}>
-            <View style={{
-              flex: 1
-            }}>
+            onRequestClose={() =>
+              this.setState({
+                modalVisible: !this.state.modalVisible
+              })
+            }
+          >
+            <View style={{ width: "100%", height: "100%" }}>
               <Header
-                androidStatusBarColor='#1E88E5'
-                style={{
-                backgroundColor: '#2196F3'
-              }}>
+                androidStatusBarColor="#1E88E5"
+                style={{ backgroundColor: "#2196F3" }}
+              >
                 <Left>
                   <TouchableOpacity
-                    onPress={() => this.setState({
-                    modalVisible: !this.state.modalVisible
-                  })}>
+                    onPress={() =>
+                      this.setState({
+                        modalVisible: !this.state.modalVisible
+                      })
+                    }
+                  >
                     <Icon
                       name="close"
-                      style={{
-                      color: 'white',
-                      paddingLeft: 10
-                    }}/>
+                      style={{ color: "white", paddingLeft: 10 }}
+                    />
                   </TouchableOpacity>
                 </Left>
                 <Body
                   style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}>
-                  <Title>Add Transport</Title>
-                </Body>
-                <Right/>
-              </Header>
-              <LinearGradient
-                colors={['#2196F3', '#E3F']}
-                style={{
-                flex: 1,
-              }}>
-              <View style={{
-                width:"100%",
-                height:"100%",
-                alignItems:"center",
-                justifyContent:"space-around"
-              }}>
-                <View
-                  style={{
-                  width: "90%",
-                  height: 60,
-                  backgroundColor: "white",
-                  borderRadius: 20
-                }}>
-                  <FlatList
-                    contentContainerStyle={{
                     flex: 1,
-                    justifyContent: "space-around",
+                    justifyContent: "center",
                     alignItems: "center"
                   }}
+                >
+                  <Title>Add Transport</Title>
+                </Body>
+                <Right>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.setState({
+                        modalVisible: !this.state.modalVisible
+                      })
+                    }
+                  >
+                    <MaterialIcons name="save" color="white" size={30} />
+                  </TouchableOpacity>
+                </Right>
+              </Header>
+              <LinearGradient
+                colors={["#2196F3", "#E3F"]}
+                style={{ flex: 1, alignItems: "center" }}
+              >
+                <View
+                  style={{
+                    width: "90%",
+                    height: 60,
+                    backgroundColor: "white",
+                    borderRadius: 20,
+                    marginTop: 20
+                  }}
+                >
+                  <FlatList
+                    contentContainerStyle={{
+                      flex: 1,
+                      justifyContent: "space-around",
+                      alignItems: "center"
+                    }}
                     data={this.state.transports}
-                    renderItem=
-                    { ({item}) => item.active 
-                    ? <LinearGradient colors={['#2196F3', '#E3F']} style={{ borderRadius: 20 }}>
-                        <TouchableOpacity onPress = { () => this.select(item) }>
-                          <Icon name={item.name} style={{ paddingLeft: 10, paddingRight: 10, color: "white" }}/>
+                    renderItem={({ item }) =>
+                      item.active ? (
+                        <LinearGradient
+                          colors={["#2196F3", "#E3F"]}
+                          style={{ borderRadius: 20 }}
+                        >
+                          <TouchableOpacity onPress={() => this.select(item)}>
+                            <Icon
+                              name={item.name}
+                              style={{
+                                paddingLeft: 10,
+                                paddingRight: 10,
+                                color: "white"
+                              }}
+                            />
+                          </TouchableOpacity>
+                        </LinearGradient>
+                      ) : (
+                        <TouchableOpacity onPress={() => this.select(item)}>
+                          <Icon
+                            name={item.name}
+                            style={{ paddingLeft: 10, paddingRight: 10 }}
+                          />
                         </TouchableOpacity>
-                      </LinearGradient>
-                    : <TouchableOpacity onPress={()=>this.select(item)}>
-                        <Icon name={item.name} style={{ paddingLeft: 10, paddingRight: 10 }}/>
-                      </TouchableOpacity> }
-                    horizontal={true}/>
-                </View>
-              <View
-                style = {{
-                  width: "90%",
-                  height: 60,
-                  backgroundColor: "white",
-                  borderRadius: 20,
-                  flexDirection : "row",
-                  justifyContent:"space-evenly",
-                  alignItems:"center",          
-                }}>
-                <Text>12:67</Text>
-                <Icon name="time"/>
+                      )
+                    }
+                    horizontal={true}
+                  />
                 </View>
                 <View
-          style = {{
-                  width: "90%",
-                  height: 60,
-                  backgroundColor: "white",
-                  borderRadius: 20,
-                  flexDirection : "row",
-                  justifyContent:"space-evenly",
-                  alignItems:"center",          
-                }} > <Text>12:67</Text> < Icon name = "time" /> </View>
+                  style={{
+                    width: "90%",
+                    height: 60,
+                    backgroundColor: "white",
+                    borderRadius: 20,
+                    flexDirection: "row",
+                    justifyContent: "space-evenly",
+                    alignItems: "center",
+                    marginTop: 20,
+                    marginBottom: 20
+                  }}
+                >
+                  <TouchableOpacity onPress={()=>this.setState({pickerVisible:!this.state.pickerVisible})}>
+                    <Text style={{ fontSize: 30 }}>{Moment(this.state.time).format("HH:mm")}</Text>
+                  </TouchableOpacity>
+                  <Icon name="time" />
+                </View>
+                <View
+                  style={{
+                    width: "90%",
+                    height: 60,
+                    backgroundColor: "white",
+                    borderRadius: 20,
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
+                    paddingLeft: 20,
+                    paddingRight: 20
+                  }}
+                >
+                <TextInput
+                style={{flex:1, fontSize:30}}
+                autoCapitalize={true}
+                underlineColorAndroid={"transparent"}
+                />
+                  <Icon name="search" />
                 </View>
               </LinearGradient>
             </View>
           </Modal>
+          <DateTimePicker
+            isVisible={this.state.pickerVisible}
+            onConfirm={(time) => this.setState({time})}
+            onCancel={() =>
+              this.setState({ pickerVisible: !this.state.pickerVisible })
+            }
+            mode={"time"}
+          />
           <LinearGradient
-            colors={['#2196F3', '#E3F']}
+            colors={["#2196F3", "#E3F"]}
             style={{
-            width: 60,
-            height: 60,
-            position: 'absolute',
-            bottom: 20,
-            right: 20,
-            borderRadius: 360,
-            justifyContent: "center",
-            alignItems: "center"
-          }}>
+              width: 60,
+              height: 60,
+              position: "absolute",
+              bottom: 20,
+              right: 20,
+              borderRadius: 360,
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
             <TouchableOpacity
-              onPress={() => this.setState({
-              modalVisible: !this.state.modalVisible
-            })}>
-              <Icon
-                name="add"
-                style={{
-                color: "white",
-                padding: 20
-              }}/>
+              onPress={() =>
+                this.setState({
+                  modalVisible: !this.state.modalVisible
+                })
+              }
+            >
+              <Icon name="add" style={{ color: "white", padding: 20 }} />
             </TouchableOpacity>
           </LinearGradient>
         </View>
@@ -294,19 +360,15 @@ export default class App extends Component {
   }
   select(value) {
     var tab = [];
-    this
-      .state
-      .transports
-      .forEach((item) => {
-        var obj = item;
-        if (value != obj) 
-          obj.active = null;
-        else {
-          obj.active = true;
-        }
-        tab.push(obj);
-      });
-    this.setState({transports: tab});
+    this.state.transports.forEach(item => {
+      var obj = item;
+      if (value != obj) obj.active = null;
+      else {
+        obj.active = true;
+      }
+      tab.push(obj);
+    });
+    this.setState({ transports: tab });
   }
 }
 
@@ -319,10 +381,10 @@ var styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    fontFamily: 'Gill Sans',
-    textAlign: 'center',
+    fontFamily: "Gill Sans",
+    textAlign: "center",
     margin: 10,
-    color: '#ffffff',
-    backgroundColor: 'transparent'
+    color: "#ffffff",
+    backgroundColor: "transparent"
   }
 });
