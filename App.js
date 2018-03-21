@@ -12,7 +12,7 @@ export default class App extends Component {
           <Scene key="Home" component={Home} hideNavBar />
           <Scene key="Login" component={Login} hideNavBar/>
           <Scene key="Register" component={Register} hideNavBar />
-          <Scene key="Person" component={Person} hideNavBar initial/>
+          <Scene key="Person" component={Person} hideNavBar/>
         </Stack>
       </Router>
     );

@@ -46,7 +46,7 @@ export default class Register extends Component {
     return (
       <Container>
         <Head
-          left={true}
+          back={true}
           text={"Registration"}
         />
         <Content style={styles.fullStyle}>

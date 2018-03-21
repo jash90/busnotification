@@ -48,7 +48,7 @@ export default class Login extends Component {
     return (
       <Container>
         <Head
-          left={true}
+          back={true}
           right={true}
           icon={"person-add"}
           text={"Sign in"}

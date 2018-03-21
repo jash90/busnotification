@@ -45,7 +45,7 @@ export default class Person extends Component {
   render() {
     return (
       <Container>
-        <Head left={true} right={true} text={"Edit Profile"} icon={"save"} />
+        <Head back={true} right={true} text={"Edit Profile"} icon={"save"} />
         <Content style={styles.fullStyle}>
           <Logo size={100} />
           <Input underlineColorAndroid="transparent" placeholder="Firstname" />

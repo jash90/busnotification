@@ -15,7 +15,6 @@ import {
   Title,
   Content,
   FooterTab,
-  Button,
   Left,
   Right,
   Body,
@@ -32,6 +31,12 @@ import { Actions } from "react-native-router-flux";
 
 import PickerIcon from "@components/picker-icon";
 import Fab from "@components/fab";
+import Logo from "@components/logo";
+import GoogleButton from "@components/google-button";
+import FacebookButton from "@components/facebook-button";
+import Button from "@components/button";
+import Input from "@components/input";
+import Head from "@components/head";
 
 export default class Home extends Component {
   constructor(props) {
@@ -128,17 +133,12 @@ export default class Home extends Component {
   render() {
     return (
       <Container>
-        <Header androidStatusBarColor="#1E88E5" style={styles.styleHeader}>
-          <Left style={styles.fullStyles} />
-          <Body style={styles.textContenerHeader}>
-            <Title>Transport Notification</Title>
-          </Body>
-          <Right style={styles.fullStyles}>
-            <TouchableOpacity onPress={() => Actions.Login()}>
-              <Icon name="person" style={styles.iconRightHeader} />
-            </TouchableOpacity>
-          </Right>
-        </Header>
+        <Head
+          right={true}
+          icon={"person"}
+          onPress={() => Actions.Login()}
+          text="Transport Notification"
+        />
         <View style={styles.fullStyles}>
           <FlatList
             data={this.state.busSchedule}
@@ -177,38 +177,24 @@ export default class Home extends Component {
                 modalVisible: !this.state.modalVisible
               })
             }
+            animationType={"slide"}
           >
             <View style={styles.modalContener}>
-              <Header
-                androidStatusBarColor="#1E88E5"
-                style={styles.styleHeader}
-              >
-                <Left>
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.setState({
-                        modalVisible: !this.state.modalVisible
-                      })
-                    }
-                  >
-                    <Icon name="close" style={styles.iconLeftHeader} />
-                  </TouchableOpacity>
-                </Left>
-                <Body style={styles.textContenerHeader}>
-                  <Title>Add Transport</Title>
-                </Body>
-                <Right>
-                  <TouchableOpacity
-                    onPress={() =>
-                      this.setState({
-                        modalVisible: !this.state.modalVisible
-                      })
-                    }
-                  >
-                    <MaterialIcons name="save" color="white" size={30} />
-                  </TouchableOpacity>
-                </Right>
-              </Header>
+              <Head
+                left={true}
+                leftIcon={"close"}
+                leftPress={() =>
+                  this.setState({ modalVisible: !this.state.modalVisible })
+                }
+                text={"Add Transport"}
+                right={true}
+                icon={"save"}
+                onPress={() =>
+                  this.setState({
+                    modalVisible: !this.state.modalVisible
+                  })
+                }
+              />
               <LinearGradient
                 colors={["#2196F3", "#E3F"]}
                 style={styles.contentContener}
@@ -286,12 +272,6 @@ export default class Home extends Component {
 }
 
 var styles = StyleSheet.create({
-  textContenerHeader: {
-    flex: 3,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  iconRightHeader: { color: "white", fontSize: 30, paddingRight: 5 },
   flatListStyle: {
     alignItems: "center",
     paddingLeft: 10,
@@ -309,14 +289,7 @@ var styles = StyleSheet.create({
   },
   fullStyles: { flex: 1 },
   blueColorStyle: { color: "#2196F3" },
-  modalContener: { width: "100%", height: "100%" },
-  styleHeader: { backgroundColor: "#2196F3" },
-  iconLeftHeader: { color: "white", paddingLeft: 10 },
-  textHeader: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center"
-  },
+  modalContener: { width: "100%", height: "100%", backgroundColor: "#2196f3" },
   contentContener: { flex: 1, alignItems: "center" },
   viewTime: {
     width: "90%",
@@ -330,15 +303,4 @@ var styles = StyleSheet.create({
     marginBottom: 20
   },
   textTime: { fontSize: 30 },
-  gradientFab: {
-    width: 60,
-    height: 60,
-    position: "absolute",
-    bottom: 20,
-    right: 20,
-    borderRadius: 360,
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  iconFab: { color: "white", padding: 20 }
 });
