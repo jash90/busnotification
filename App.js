@@ -11,7 +11,7 @@ import {
   View,
   FlatList,
   TouchableOpacity,
-  Modal, 
+  Modal,
   TextInput
 } from "react-native";
 
@@ -33,7 +33,8 @@ import {
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import LinearGradient from "react-native-linear-gradient";
 import DateTimePicker from "react-native-modal-datetime-picker";
-import Moment from 'moment';
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import Moment from "moment";
 
 export default class App extends Component {
   constructor(props) {
@@ -122,7 +123,7 @@ export default class App extends Component {
       ],
       modalVisible: false,
       pickerVisible: false,
-      time : new Date()
+      time: new Date()
     };
   }
 
@@ -295,39 +296,48 @@ export default class App extends Component {
                     marginBottom: 20
                   }}
                 >
-                  <TouchableOpacity onPress={()=>this.setState({pickerVisible:!this.state.pickerVisible})}>
-                    <Text style={{ fontSize: 30 }}>{Moment(this.state.time).format("HH:mm")}</Text>
+                  <TouchableOpacity
+                    onPress={() =>
+                      this.setState({
+                        pickerVisible: !this.state.pickerVisible
+                      })
+                    }
+                  >
+                    <Text style={{ fontSize: 30 }}>
+                      {Moment(this.state.time).format("HH:mm")}
+                    </Text>
                   </TouchableOpacity>
                   <Icon name="time" />
                 </View>
-                <View
-                  style={{
-                    width: "90%",
-                    height: 60,
-                    backgroundColor: "white",
-                    borderRadius: 20,
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                    alignItems: "center",
-                    paddingLeft: 20,
-                    paddingRight: 20
+                <GooglePlacesAutocomplete
+                  placeholder="Enter Location"
+                  minLength={2}
+                  autoFocus={false}
+                  returnKeyType={"default"}
+                  fetchDetails={true}
+                  query={
+                    {
+                      // available options: https://developers.google.com/places/web-service/autocomplete
+                      key: "AIzaSyBeIXsxelUaQPIy7i4l33s-us8UC_m0gl0",
+                      language: "pl",
+                      types: "(cities)"
+                    } // language of the results // default: 'geocode'
+                  }
+                  styles={{
+                    description: { color: "#fff" }
                   }}
-                >
-                <TextInput
-                style={{flex:1, fontSize:30}}
-                autoCapitalize={true}
-                underlineColorAndroid={"transparent"}
+                  currentLocation={false}
                 />
-                  <Icon name="search" />
-                </View>
               </LinearGradient>
             </View>
           </Modal>
           <DateTimePicker
             isVisible={this.state.pickerVisible}
-            onConfirm={(time) => this.setState({time})}
+            onConfirm={time => this.setState({ time })}
             onCancel={() =>
-              this.setState({ pickerVisible: !this.state.pickerVisible })
+              this.setState({
+                pickerVisible: !this.state.pickerVisible
+              })
             }
             mode={"time"}
           />
