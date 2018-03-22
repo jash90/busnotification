@@ -81,32 +81,5 @@ export default class Register extends Component {
 }
 
 var styles = StyleSheet.create({
-  styleHeader: { backgroundColor: "#2196F3" },
-  iconHeader: { color: "white", paddingLeft: 5 },
-  textHeader: { flex: 3, justifyContent: "center", alignItems: "center" },
   fullStyle: { flex: 1 },
-  textInputStyle: {
-    borderRadius: 20,
-    width: "90%",
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white",
-    paddingLeft: 10,
-    paddingRight: 10,
-    fontSize: 20,
-    alignSelf: "center",
-    margin: 10
-  },
-  buttonRegister: {
-    borderRadius: 20,
-    width: "90%",
-    height: 60,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#2196F3",
-    margin: 10,
-    alignSelf: "center"
-  },
-  textRegister: { color: "white", fontSize: 20 }
 });
