@@ -150,7 +150,7 @@ export default class Home extends Component {
                     <MaterialIcons
                       name="notifications"
                       size={30}
-                      color="#2196F3"
+                      color="#000"
                     />
                   </TouchableOpacity>
                 ) : (
@@ -158,7 +158,7 @@ export default class Home extends Component {
                     <MaterialIcons
                       name="notifications-none"
                       size={30}
-                      color="#2196F3"
+                      color="#000"
                     />
                   </TouchableOpacity>
                 )}
@@ -229,7 +229,32 @@ export default class Home extends Component {
                     language: "pl",
                     types: "(cities)"
                   }}
-                  styles={{ description: { color: "#fff" } }}
+                  styles={{
+                    container: { width: "100%" },
+                    description: { color: "white", width: "100%" },
+                    textInputContainer: {
+                      width: "95%",
+                      height: 60,
+                      alignSelf: "center",
+                      backgroundColor: "transparent"
+                    },
+                    textInput: {
+                      width: "100%",
+                      height: "100%",
+                      justifyContent: "center",
+                      alignSelf: "center",
+                      borderRadius: 20,
+                      fontSize: 20,
+                      paddingLeft:15,
+                      paddingRight:15
+                    },
+                    loader: {},
+                    listView: { width: "90%", alignSelf: "center" },
+                    predefinedPlacesDescription: { width: "90%" },
+                    poweredContainer: { width: "100%" },
+                    powered: {},
+                    separator: { color: "white" }
+                  }}
                   currentLocation={false}
                 />
               </LinearGradient>
@@ -288,7 +313,7 @@ var styles = StyleSheet.create({
     marginTop: 15
   },
   fullStyles: { flex: 1 },
-  blueColorStyle: { color: "#2196F3" },
+  blueColorStyle: { color: "#000" },
   modalContener: { width: "100%", height: "100%", backgroundColor: "#2196f3" },
   contentContener: { flex: 1, alignItems: "center" },
   viewTime: {
@@ -302,5 +327,5 @@ var styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20
   },
-  textTime: { fontSize: 30 },
+  textTime: { fontSize: 30 }
 });
