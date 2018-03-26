@@ -73,7 +73,8 @@ export default class Home extends Component {
       pickerVisible: false,
       time: new Date(),
       select: null,
-      city: ""
+      city: "",
+      index:-1
     };
   }
 
@@ -92,7 +93,7 @@ export default class Home extends Component {
               .sort(this.compareDate)
               .sort(this.compareNotification)}
             contentContainerStyle={styles.flatListStyle}
-            renderItem={({ item }) => (
+            renderItem={item => (
               <View style={styles.itemContener}>
                 {item.active ? (
                   <TouchableOpacity
@@ -132,11 +133,11 @@ export default class Home extends Component {
                     justifyContent: "space-around",
                     alignItems: "center"
                   }}
-                  onPress={() => this.selectTransport(item)}
+                  onPress={() => this.selectTransport(item, item.index)}
                 >
-                  <Icon name={item.transport} style={styles.colorStyle} />
-                  <Text style={styles.colorStyle}>{item.time}</Text>
-                  <Text style={styles.colorStyle}>{item.direction}</Text>
+                  <Icon name={item.item.transport} style={styles.colorStyle} />
+                  <Text style={styles.colorStyle}>{item.item.time}</Text>
+                  <Text style={styles.colorStyle}>{item.item.direction}</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -212,6 +213,7 @@ export default class Home extends Component {
           <Fab
             onPress={() =>
               this.setState({
+                select: 1,
                 modalVisible: !this.state.modalVisible
               })
             }
@@ -253,21 +255,22 @@ export default class Home extends Component {
     });
     this.setState({ busSchedule: tab });
   }
-  selectTransport = item => {
+  selectTransport = (item, index) => {
     var tab = [];
     this.state.transports.forEach(value => {
       var obj = value;
-      if (item.transport !== obj.name) obj.active = null;
+      if (item.item.transport !== obj.name) obj.active = null;
       else {
         obj.active = true;
       }
       tab.push(obj);
     });
     this.setState({
-      select: item,
+      index,
+      select: item.item,
       transports: tab,
-      time: Moment(item.time, "HH:mm").toDate(),
-      city: item.direction,
+      time: Moment(item.item.time, "HH:mm").toDate(),
+      city: item.item.direction,
       modalVisible: !this.state.modalVisible
     });
   };
@@ -279,25 +282,30 @@ export default class Home extends Component {
       time: Moment(this.state.time).format("HH:mm"),
       direction: this.state.city
     };
+    if (this.state.select != 1) {
+      item.active = this.state.select.active;
+    }
     this.state.transports.forEach(element => {
       if (element.active == true) {
         item.transport = element.name;
       }
     });
-    if (this.state.select != null) {
-      if (this.state.select.active == true)
-        item.active = this.state.select.active;
-      var index = this.state.busSchedule.indexOf(this.state.select);
-      console.log(index);
-      if (index > -1) {
-        this.state.busSchedule.splice(index, 1);
-      }
-    }
-
-    const { busSchedule } = this.state;
-    busSchedule.push(item);
+    const bus = this.state.busSchedule;
+    bus.push(item);
     this.setState({
-      busSchedule,
+      busSchedule: bus
+    });
+
+    console.log(bus);
+    console.log(this.state.select);
+    var array = this.state.busSchedule;
+    var index = array.indexOf(this.state.select);
+    array.splice(this.state.index, 1);
+    this.setState({
+      busSchedule: array
+    });
+
+    this.setState({
       select: null,
       modalVisible: !this.state.modalVisible
     });

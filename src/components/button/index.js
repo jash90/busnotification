@@ -16,7 +16,7 @@ class Button extends Component {
           alignSelf:"center"
         }}
       >
-        <TouchableOpacity onPress={() => this.props.onPress}>
+        <TouchableOpacity onPress={this.props.onPress}>
           <Text style={{ color: "white", fontSize: 20 }}>
             {this.props.text}
           </Text>

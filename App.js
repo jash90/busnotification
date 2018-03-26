@@ -10,7 +10,7 @@ export default class App extends Component {
       <Router backAndroidHandler={() => Actions.pop()}>
         <Stack key="root">
           <Scene key="Home" component={Home} hideNavBar />
-          <Scene key="Login" component={Login} hideNavBar/>
+          <Scene key="Login" component={Login} hideNavBar initial/>
           <Scene key="Register" component={Register} hideNavBar />
           <Scene key="Person" component={Person} hideNavBar/>
         </Stack>

@@ -6,7 +6,8 @@ import {
   FlatList,
   TouchableOpacity,
   Modal,
-  Image
+  Image,
+  ToastAndroid
 } from "react-native";
 
 import {
@@ -34,13 +35,14 @@ import FacebookButton from "@components/facebook-button";
 import Button from "@components/button";
 import Input from "@components/input";
 import Head from "@components/head";
+import firebase from "react-native-firebase";
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      login: "",
-      password: ""
+      login: "bartek@gg.pl",
+      password: "123456"
     };
   }
 
@@ -48,11 +50,10 @@ export default class Login extends Component {
     return (
       <Container>
         <Head
-          back={true}
           right={true}
           icon={"person-add"}
           text={"Sign in"}
-          onPress={()=>Actions.Register()}
+          onPress={() => Actions.Register()}
         />
         <View style={styles.fullStyle}>
           <View>
@@ -70,13 +71,52 @@ export default class Login extends Component {
             />
           </View>
           <Content contentContainerStyle={styles.buttonContener}>
-            <Button text="Login" />
+            <Button text="Login" onPress={() => this.login()} />
             <FacebookButton text="Sign in Facebook" />
             <GoogleButton text="Sign in Google" />
           </Content>
         </View>
       </Container>
     );
+  }
+  login() {
+    //   this.setState({ loading: true });
+    firebase
+      .auth()
+      .signInAndRetrieveDataWithEmailAndPassword(
+        this.state.login,
+        this.state.password
+      )
+      .then(data => {
+        ToastAndroid.show(
+          "Zalogowałes sie jako " + data.user.email + ".",
+          ToastAndroid.SHORT
+        );
+      })
+      .catch(error => {
+        // this.setState({
+        //   error: "Authentication failed.",
+        //   loading: false
+        // });
+        if (error.code === "auth/wrong-password") {
+          ToastAndroid.show("The password is invalid.", ToastAndroid.SHORT);
+        }
+        if (error.code === "auth/user-not-found") {
+          ToastAndroid.show("The user is not found.", ToastAndroid.SHORT);
+        }
+        if (error.code === "auth/invalid-email") {
+          ToastAndroid.show(
+            "The email address is badly formatted.",
+            ToastAndroid.SHORT
+          );
+        }
+        if (error.code === "auth/user-disabled") {
+          ToastAndroid.show("The user is disabled.", ToastAndroid.SHORT);
+        }
+
+        console.log(error);
+        //    ToastAndroid.show(error, ToastAndroid.SHORT);
+      });
   }
 }
 
