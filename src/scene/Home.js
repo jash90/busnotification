@@ -26,7 +26,6 @@ import {
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import LinearGradient from "react-native-linear-gradient";
 import DateTimePicker from "react-native-modal-datetime-picker";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import Moment from "moment";
 import { Actions } from "react-native-router-flux";
 
@@ -38,10 +37,20 @@ import FacebookButton from "@components/facebook-button";
 import Button from "@components/button";
 import Input from "@components/input";
 import Head from "@components/head";
+import firebase from "react-native-firebase";
+
+import BusNotification from "@components/bus-notification";
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
+
+    this.ref = firebase
+      .firestore()
+      .collection("notifications")
+      .doc(this.props.userId)
+      .collection("notifications");
+
     this.state = {
       transports: [
         { name: "bus", active: true },
@@ -51,32 +60,32 @@ export default class Home extends Component {
         { name: "jet" },
         { name: "subway" }
       ],
-      busSchedule: [
-        {
-          time: "8:15",
-          direction: "Rzeszów",
-          transport: "train",
-          active: true
-        },
-        { time: "9:15", direction: "Rzeszów", transport: "car" },
-        { time: "10:15", direction: "Rzeszów", transport: "train" },
-        { time: "11:45", direction: "Rzeszów", transport: "bus" },
-        { time: "12:45", direction: "Rzeszów", transport: "car", active: true },
-        { time: "13:45", direction: "Rzeszów", transport: "bus" },
-        { time: "14:45", direction: "Rzeszów", transport: "bus" },
-        { time: "15:45", direction: "Rzeszów", transport: "bus", active: true },
-        { time: "16:45", direction: "Rzeszów", transport: "bus" },
-        { time: "17:45", direction: "Rzeszów", transport: "bus" },
-        { time: "18:45", direction: "Rzeszów", transport: "bus" }
-      ],
+      busSchedule: [],
       modalVisible: false,
       pickerVisible: false,
       time: new Date(),
       select: null,
       city: "",
-      index:-1
+      index: -1
     };
   }
+  componentDidMount() {
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onCollectionUpdate = querySnapshot => {
+    const busSchedule = [];
+    querySnapshot.forEach(doc => {
+      const { time, direction, transport, active } = doc.data();
+      busSchedule.push({ time, direction, transport, active, doc });
+    });
+    console.log(querySnapshot);
+    this.setState({ busSchedule });
+  };
 
   render() {
     return (
@@ -84,7 +93,7 @@ export default class Home extends Component {
         <Head
           right={true}
           icon={"person"}
-          onPress={() => Actions.Login()}
+          onPress={() => Actions.Person()}
           text="Transport Notification"
         />
         <View style={styles.fullStyles}>
@@ -93,54 +102,10 @@ export default class Home extends Component {
               .sort(this.compareDate)
               .sort(this.compareNotification)}
             contentContainerStyle={styles.flatListStyle}
-            renderItem={item => (
-              <View style={styles.itemContener}>
-                {item.active ? (
-                  <TouchableOpacity
-                    style={{
-                      flex: 2,
-                      alignSelf: "center",
-                      alignItems: "center"
-                    }}
-                    onPress={() => this.toggleNotification(item)}
-                  >
-                    <MaterialIcons
-                      name="notifications"
-                      size={30}
-                      color="#000"
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity
-                    style={{
-                      flex: 2,
-                      alignSelf: "center",
-                      alignItems: "center"
-                    }}
-                    onPress={() => this.toggleNotification(item)}
-                  >
-                    <MaterialIcons
-                      name="notifications-off"
-                      size={30}
-                      color="#000"
-                    />
-                  </TouchableOpacity>
-                )}
-                <TouchableOpacity
-                  style={{
-                    flex: 9,
-                    flexDirection: "row",
-                    justifyContent: "space-around",
-                    alignItems: "center"
-                  }}
-                  onPress={() => this.selectTransport(item, item.index)}
-                >
-                  <Icon name={item.item.transport} style={styles.colorStyle} />
-                  <Text style={styles.colorStyle}>{item.item.time}</Text>
-                  <Text style={styles.colorStyle}>{item.item.direction}</Text>
-                </TouchableOpacity>
-              </View>
-            )}
+            renderItem={({ item }) => 
+            <BusNotification
+            openModal={()=>this.selectTransport(item)}
+             {...item}/>}
           />
           <Modal
             visible={this.state.modalVisible}
@@ -213,7 +178,6 @@ export default class Home extends Component {
           <Fab
             onPress={() =>
               this.setState({
-                select: 1,
                 modalVisible: !this.state.modalVisible
               })
             }
@@ -255,60 +219,51 @@ export default class Home extends Component {
     });
     this.setState({ busSchedule: tab });
   }
-  selectTransport = (item, index) => {
+  selectTransport = (item) => {
     var tab = [];
     this.state.transports.forEach(value => {
       var obj = value;
-      if (item.item.transport !== obj.name) obj.active = null;
+      if (item.transport !== obj.name) obj.active = null;
       else {
         obj.active = true;
       }
       tab.push(obj);
     });
     this.setState({
-      index,
-      select: item.item,
+      select: item,
       transports: tab,
-      time: Moment(item.item.time, "HH:mm").toDate(),
-      city: item.item.direction,
+      time: Moment(item.time, "HH:mm").toDate(),
+      city: item.direction,
       modalVisible: !this.state.modalVisible
     });
   };
   saveTransport = () => {
-    // const {busSchedule} = this.state;
-    // var item = busSchedule.indexOf(this.state.select);
-    // busSchedule.splice(item,1);
-    var item = {
-      time: Moment(this.state.time).format("HH:mm"),
-      direction: this.state.city
-    };
-    if (this.state.select != 1) {
-      item.active = this.state.select.active;
+    if (this.state.select == null) {
+      var obj = {
+        time: this.state.time,
+        direction: this.state.city
+      };
+      this.state.transports.forEach(element => {
+        if (element.active == true) {
+          obj.transport = element.name;
+        }
+      });
+      this.ref.add(obj);
     }
-    this.state.transports.forEach(element => {
-      if (element.active == true) {
-        item.transport = element.name;
+      if (this.state.select != null) {
+        var transport = "";
+        this.state.transports.forEach(element => {
+          if (element.active == true) {
+            transport = element.name;
+          }
+        });
+        this.state.select.doc.ref.update({
+          time: this.state.time,
+          direction: this.state.city,
+          transport
+        });
       }
-    });
-    const bus = this.state.busSchedule;
-    bus.push(item);
-    this.setState({
-      busSchedule: bus
-    });
-
-    console.log(bus);
-    console.log(this.state.select);
-    var array = this.state.busSchedule;
-    var index = array.indexOf(this.state.select);
-    array.splice(this.state.index, 1);
-    this.setState({
-      busSchedule: array
-    });
-
-    this.setState({
-      select: null,
-      modalVisible: !this.state.modalVisible
-    });
+    this.setState({ select:null,modalVisible: !this.state.modalVisible });
   };
 }
 

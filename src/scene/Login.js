@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   Modal,
   Image,
-  ToastAndroid
+  ToastAndroid,
+  AsyncStorage
 } from "react-native";
 
 import {
@@ -40,12 +41,22 @@ import firebase from "react-native-firebase";
 export default class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      login: "bartek@gg.pl",
-      password: "123456"
-    };
+    this.state = { email: "", password: "" };
   }
-
+  async componentDidMount() {
+    this.setState({
+      email: this.props.email,
+      password: this.props.password
+    });
+    try {
+      const email = await AsyncStorage.getItem("@login:key");
+      if (email !== null) {
+        this.setState({ email });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
   render() {
     return (
       <Container>
@@ -59,9 +70,9 @@ export default class Login extends Component {
           <View>
             <Logo size={150} />
             <Input
-              placeholder={"Login"}
-              onChangeText={text => this.setState({ login: text })}
-              value={this.state.login}
+              placeholder={"Email"}
+              onChangeText={text => this.setState({ email: text })}
+              value={this.state.email}
             />
             <Input
               placeholder={"Password"}
@@ -79,12 +90,20 @@ export default class Login extends Component {
       </Container>
     );
   }
+  async saveloginhaslo(login, password) {
+    try {
+      await AsyncStorage.setItem("@login:key", login);
+      await AsyncStorage.setItem("@password:key", password);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   login() {
-    //   this.setState({ loading: true });
     firebase
       .auth()
       .signInAndRetrieveDataWithEmailAndPassword(
-        this.state.login,
+        this.state.email,
         this.state.password
       )
       .then(data => {
@@ -92,12 +111,10 @@ export default class Login extends Component {
           "Zalogowałes sie jako " + data.user.email + ".",
           ToastAndroid.SHORT
         );
+        this.saveloginhaslo(this.state.email, this.state.password);
+        Actions.Home({ userId: data.user.uid });
       })
       .catch(error => {
-        // this.setState({
-        //   error: "Authentication failed.",
-        //   loading: false
-        // });
         if (error.code === "auth/wrong-password") {
           ToastAndroid.show("The password is invalid.", ToastAndroid.SHORT);
         }
@@ -113,9 +130,7 @@ export default class Login extends Component {
         if (error.code === "auth/user-disabled") {
           ToastAndroid.show("The user is disabled.", ToastAndroid.SHORT);
         }
-
         console.log(error);
-        //    ToastAndroid.show(error, ToastAndroid.SHORT);
       });
   }
 }

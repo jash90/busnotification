@@ -15,9 +15,6 @@ import {
   Header,
   Title,
   Content,
-  Fab,
-  FooterTab,
-  Button,
   Left,
   Right,
   Body,
@@ -33,6 +30,7 @@ import Moment from "moment";
 import Logo from "@components/logo";
 import Input from "@components/input";
 import Head from "@components/head";
+import Button from "@components/button";
 
 import Separator from "@components/separator";
 
@@ -48,9 +46,7 @@ export default class Person extends Component {
         <Head back={true} right={true} text={"Edit Profile"} icon={"save"} />
         <Content style={styles.fullStyle}>
           <Logo size={100} />
-          <Input underlineColorAndroid="transparent" placeholder="Firstname" />
-          <Input underlineColorAndroid="transparent" placeholder="Lastname" />
-          <Separator text="Change Password"/>
+          <Separator text="Change Password" />
           <Input
             underlineColorAndroid="transparent"
             placeholder="Password"
@@ -61,6 +57,9 @@ export default class Person extends Component {
             placeholder="Repeat Password"
             secureTextEntry={true}
           />
+          <View style={{ marginTop: 10 }}>
+            <Button text={"Logout"} onPress={()=>Actions.Login()}/>
+          </View>
         </Content>
       </Container>
     );
@@ -68,5 +67,5 @@ export default class Person extends Component {
 }
 
 var styles = StyleSheet.create({
-  fullStyle: { flex: 1 },
+  fullStyle: { flex: 1 }
 });
