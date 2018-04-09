@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { PushNotificationIOS } from "react-native";
+import { PushNotificationIOS, Linking } from "react-native";
 import PushNotification from 'react-native-push-notification';
 export default class PushNotify extends Component {
     constructor(props) {
@@ -15,7 +15,20 @@ export default class PushNotify extends Component {
 
             // (required) Called when a remote or local notification is opened or received
             onNotification: function (notification) {
-                console.log('NOTIFICATION:', notification);
+            var url = "market://details?id=pl.zimny.busnotification";
+               Linking.canOpenURL(url)
+                 .then(supported => {
+                   if (!supported) {
+                     console.log("Can't handle url: " + url);
+                   } else {
+                     return Linking.openURL(url);
+                   }
+                 })
+                 .catch(err =>
+                   console.error("An error occurred", err)
+                 );
+                
+                console.log("NOTIFICATION:", notification);
 
                 // process the notification required on iOS only (see fetchCompletionHandler
                 // docs: https://facebook.github.io/react-native/docs/pushnotificationios.html)
