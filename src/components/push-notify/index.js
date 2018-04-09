@@ -15,18 +15,18 @@ export default class PushNotify extends Component {
 
             // (required) Called when a remote or local notification is opened or received
             onNotification: function (notification) {
-            var url = "market://details?id=pl.zimny.busnotification";
-               Linking.canOpenURL(url)
-                 .then(supported => {
-                   if (!supported) {
-                     console.log("Can't handle url: " + url);
-                   } else {
-                     return Linking.openURL(url);
-                   }
-                 })
-                 .catch(err =>
-                   console.error("An error occurred", err)
-                 );
+            // var url = "market://details?id=pl.zimny.busnotification";
+            //    Linking.canOpenURL(url)
+            //      .then(supported => {
+            //        if (!supported) {
+            //          console.log("Can't handle url: " + url);
+            //        } else {
+            //          return Linking.openURL(url);
+            //        }
+            //      })
+            //      .catch(err =>
+            //        console.error("An error occurred", err)
+            //      );
                 
                 console.log("NOTIFICATION:", notification);
 
