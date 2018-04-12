@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {TouchableOpacity} from "react-native";
+import {TouchableOpacity, Platform} from "react-native";
 import {Icon} from "native-base";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -25,7 +25,7 @@ class Fab extends Component {
             name={this.props.icon}
             style={{
             color: "white",
-            paddingTop:5
+            paddingTop:Platform.OS=='ios'?5:0
           }}/>
         </TouchableOpacity>
       </LinearGradient>
