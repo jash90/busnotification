@@ -257,6 +257,10 @@ export default class Home extends Component {
     });
   };
   saveTransport = () => {
+    if (this.state.city.length==0){
+      alert("Miasto jest puste.");
+      return;
+    }
     var transport = "";
     if (this.state.select == null) {
       var obj = {
