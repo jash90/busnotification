@@ -26,7 +26,7 @@ export default class Logo extends Component {
       >
         <TouchableOpacity>
           <Icon
-            name={"bus"}
+            name={"md-bus"}
             style={{
               paddingLeft: 10,
               paddingRight: 10,

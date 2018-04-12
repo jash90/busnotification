@@ -33,6 +33,7 @@ import Head from "@components/head";
 import Button from "@components/button";
 
 import Separator from "@components/separator";
+import firebase from "react-native-firebase";
 
 export default class Person extends Component {
   constructor(props) {
@@ -58,12 +59,21 @@ export default class Person extends Component {
             secureTextEntry={true}
           />
           <View style={{ marginTop: 10 }}>
-            <Button text={"Logout"} onPress={()=>Actions.Login()}/>
+            <Button text={"Logout"} onPress={() => this.signOutUser()} />
           </View>
         </Content>
       </Container>
     );
   }
+
+  signOutUser = async () => {
+    try {
+      await firebase.auth().signOut();
+      Actions.Login();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 }
 
 var styles = StyleSheet.create({

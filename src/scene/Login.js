@@ -43,6 +43,15 @@ export default class Login extends Component {
     super(props);
     this.state = { email: "", password: "" };
   }
+  componentWillMount = () => {
+        firebase.auth().onAuthStateChanged(user => {
+          if (user) {
+            ToastAndroid.show("Zalogowałes sie jako " + user.email + ".", ToastAndroid.SHORT);
+            Actions.Home({ userId: user.uid });
+          }
+        });
+  }
+  
   async componentDidMount() {
     this.setState({
       email: this.props.email,
