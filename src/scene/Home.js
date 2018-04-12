@@ -286,6 +286,7 @@ export default class Home extends Component {
         transport
       });
       PushNotification.localNotificationSchedule({
+        id :Moment().unix(),
         autoCancel: false, // (optional) default: true
         largeIcon: "ic_launcher", // (optional) default: "ic_launcher"
         smallIcon: "ic_notification", // (optional) default: "ic_notification" with fallback for "ic_launcher"
@@ -293,7 +294,7 @@ export default class Home extends Component {
         color: "#2196F3", // (optional) default: system default
         vibrate: true, // (optional) default: true
         vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
-
+        userInfo:{id:Moment().unix()},
         /* iOS and Android properties */
         title: "Transport Notification", // (optional)
         message:
