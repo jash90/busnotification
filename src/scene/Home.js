@@ -200,7 +200,7 @@ export default class Home extends Component {
                 modalVisible: !this.state.modalVisible
               })
             }
-            icon={"add"}
+            icon={"md-add"}
           />
         </View>
       </Container>
