@@ -46,10 +46,10 @@ import BusNotification from "@components/bus-notification";
 import PushNotification from "react-native-push-notification";
 import AppLink from "react-native-app-link";
 import PushNotificationAndroid from "react-native-push-notification";
-export default class Home extends Component {
+
+export default class Edit extends Component {
   constructor(props) {
     super(props);
-
     this.ref = firebase
       .firestore()
       .collection("notifications")
@@ -57,27 +57,6 @@ export default class Home extends Component {
     this.collection = firebase.firestore().collection("notifications");
 
     this.state = {
-      transports: [
-        {
-          name: "bus",
-          active: true
-        },
-        {
-          name: "train"
-        },
-        {
-          name: "car"
-        },
-        {
-          name: "boat"
-        },
-        {
-          name: "jet"
-        },
-        {
-          name: "subway"
-        }
-      ],
       busSchedule: [],
       modalVisible: false,
       pickerVisible: false,
@@ -87,96 +66,72 @@ export default class Home extends Component {
       index: -1
     };
   }
-  componentDidMount() {
-    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
-  }
-
-  componentWillUnmount = action => {
-    this.unsubscribe();
-    DeviceEventEmitter.removeListener("notificationActionReceived", action =>
-      this.notificationAction(action)
-    );
-  };
-
-  onCollectionUpdate = querySnapshot => {
-    const busSchedule = [];
-    querySnapshot.forEach(doc => {
-      const { time, direction, transport, active } = doc.data();
-      busSchedule.push({ time, direction, transport, active, doc });
-    });
-    console.log(querySnapshot);
-    this.setState({ busSchedule });
-  };
-
   componentWillMount = () => {
-    PushNotificationAndroid.registerNotificationActions(["Yes", "No"]);
-    DeviceEventEmitter.addListener("notificationActionReceived", action =>
-      this.notificationAction(action)
-    );
-    PushNotification.configure({
-      onRegister: function(token) {
-        console.log("TOKEN:", token);
-      },
-      onNotification: function(notification) {
-        console.log("NOTIFICATION:", notification);
-        notification.finish(PushNotificationIOS.FetchResult.NoData);
-      }
-    });
+    if (this.props.time) {
+      this.setState({ time: this.props.time });
+    }
+    if (this.props.select) {
+      this.setState({ select: this.props.select });
+    }
+    if (this.props.direction) {
+      this.setState({ direction: this.props.direction });
+    }
   };
 
   render() {
     return (
-      <Container>
+      <View style={styles.modalContener}>
         <Head
+          left={true}
+          leftIcon={"close"}
+          leftPress={() => Actions.Home()}
+          text={"Add Transport"}
           right={true}
-          icon={"person"}
-          onPress={() => Actions.Person()}
-          text="Transport Notification"
+          icon={"save"}
+          onPress={() => this.saveTransport()}
         />
-        <View style={styles.fullStyles}>
-          <FlatList
-            data={this.state.busSchedule
-              .sort(this.compareDate)
-              .sort(this.compareNotification)}
-            contentContainerStyle={styles.flatListStyle}
-            renderItem={({ item }) => (
-              <BusNotification
-                openModal={() => this.selectTransport(item)}
-                {...item}
-              />
-            )}
+        <LinearGradient
+          colors={["#2196F3", "#E3F"]}
+          style={styles.contentContener}
+        >
+          <PickerIcon select={item => this.selectPicker(item)} />
+          <View style={styles.viewTime}>
+            <TouchableOpacity
+              onPress={() =>
+                this.setState({
+                  pickerVisible: !this.state.pickerVisible
+                })
+              }
+            >
+              <Text style={styles.textTime}>
+                {Moment(this.state.time).format("HH:mm")}
+              </Text>
+            </TouchableOpacity>
+            <Icon name="time" />
+          </View>
+          <Input
+            underlineColorAndroid="transparent"
+            placeholder="Enter City"
+            value={this.state.direction}
+            onChangeText={text => this.setState({ direction: text })}
           />
-          <Fab
-            onPress={() =>
-             Actions.Edit()
-            }
-            icon={"md-add"}
-          />
-        </View>
-      </Container>
+        </LinearGradient>
+        <DateTimePicker
+          date={this.state.time}
+          isVisible={this.state.pickerVisible}
+          onConfirm={time => this.setState({ time })}
+          onCancel={() =>
+            this.setState({
+              pickerVisible: !this.state.pickerVisible
+            })
+          }
+          mode={"time"}
+        />
+      </View>
     );
   }
-  selectPicker(value) {
-    var tab = [];
-    this.state.transports.forEach(item => {
-      var obj = item;
-      if (value != obj) obj.active = null;
-      else {
-        obj.active = true;
-      }
-      tab.push(obj);
-    });
-    this.setState({ transports: tab });
-  }
-  compareNotification(a, b) {
-    if (a.active && !b.active) return -1;
-    if (!a.active && b.active) return 1;
-    return 0;
-  }
-  compareDate(a, b) {
-    if (a.time < b.time) return -1;
-    if (a.time > b.time) return 1;
-    return 0;
+  selectPicker(item) {
+    this.setState({ select: item.index });
   }
   toggleNotification(value) {
     var tab = [];
@@ -202,12 +157,8 @@ export default class Home extends Component {
       select: item,
       transports: tab,
       time: Moment(item.time, "HH:mm").toDate(),
-      direction: item.direction
-    });
-    Actions.Edit({
-      direction: this.state.direction,
-      time: this.state.time,
-      select: this.state.select
+      city: item.direction,
+      modalVisible: !this.state.modalVisible
     });
   };
   saveTransport = () => {
