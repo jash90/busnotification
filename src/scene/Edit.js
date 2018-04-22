@@ -50,10 +50,6 @@ import PushNotificationAndroid from "react-native-push-notification";
 export default class Edit extends Component {
   constructor(props) {
     super(props);
-    this.ref = firebase
-      .firestore()
-      .collection("notifications")
-      .where("uid", "==", this.props.userId);
     this.collection = firebase.firestore().collection("notifications");
 
     this.state = {
@@ -61,20 +57,23 @@ export default class Edit extends Component {
       modalVisible: false,
       pickerVisible: false,
       time: new Date(),
-      select: null,
+      transport: "",
       direction: "",
       index: -1
     };
   }
   componentWillMount = () => {
-    if (this.props.time) {
-      this.setState({ time: this.props.time });
-    }
-    if (this.props.select) {
-      this.setState({ select: this.props.select });
-    }
-    if (this.props.direction) {
-      this.setState({ direction: this.props.direction });
+    if (this.props.item) {
+      if (this.props.item.time) {
+        this.setState({ time: this.props.item.time });
+      }
+      if (this.props.item.transport) {
+        this.setState({ transport: this.props.item.transport });
+      }
+      if (this.props.item.direction) {
+        this.setState({ direction: this.props.item.direction });
+      }
+      console.log(this.props);
     }
   };
 
@@ -84,7 +83,7 @@ export default class Edit extends Component {
         <Head
           left={true}
           leftIcon={"close"}
-          leftPress={() => Actions.Home()}
+          leftPress={() => Actions.pop()}
           text={"Add Transport"}
           right={true}
           icon={"save"}
@@ -94,7 +93,10 @@ export default class Edit extends Component {
           colors={["#2196F3", "#E3F"]}
           style={styles.contentContener}
         >
-          <PickerIcon select={item => this.selectPicker(item)} />
+          <PickerIcon
+            onChange={item => this.selectPicker(item)}
+            select={this.state.transport}
+          />
           <View style={styles.viewTime}>
             <TouchableOpacity
               onPress={() =>
@@ -131,97 +133,24 @@ export default class Edit extends Component {
     );
   }
   selectPicker(item) {
-    this.setState({ select: item.index });
+    this.setState({ transport: item.item });
   }
-  toggleNotification(value) {
-    var tab = [];
-    this.state.busSchedule.forEach(item => {
-      if (value == item) {
-        item.active = !item.active;
-      }
-      tab.push(item);
-    });
-    this.setState({ busSchedule: tab });
-  }
-  selectTransport = item => {
-    var tab = [];
-    this.state.transports.forEach(value => {
-      var obj = value;
-      if (item.transport !== obj.name) obj.active = null;
-      else {
-        obj.active = true;
-      }
-      tab.push(obj);
-    });
-    this.setState({
-      select: item,
-      transports: tab,
-      time: Moment(item.time, "HH:mm").toDate(),
-      city: item.direction,
-      modalVisible: !this.state.modalVisible
-    });
-  };
   saveTransport = () => {
     if (this.state.direction.length == 0) {
       alert("City is empty.");
       return;
     }
-    var transport = "";
-    if (this.state.select == null) {
-      var obj = {
-        time: this.state.time,
-        direction: this.state.direction,
-        uid: this.props.userId,
-        id: Moment().unix()
-      };
-      this.state.transports.forEach(element => {
-        if (element.active == true) {
-          obj.transport = element.name;
-        }
-      });
-      this.collection.add(obj);
-    }
-    if (this.state.select != null) {
-      this.state.transports.forEach(element => {
-        if (element.active == true) {
-          transport = element.name;
-        }
-      });
-      this.state.select.doc.ref.update({
-        time: this.state.time,
-        direction: this.state.direction,
-        transport
-      });
-      if (this.state.select.active) {
-        PushNotification.cancelLocalNotifications({ id: this.state.select.id });
-        PushNotification.localNotificationSchedule({
-          id: this.state.select.id,
-          autoCancel: false,
-          color: "#2196F3", // (optional) default: system default
-          title: "Transport Notification", // (optional)
-          message:
-            this.state.direction +
-            " " +
-            Moment(this.state.time).format("HH:mm") +
-            " " +
-            transport,
-          repeatType: "day", // (Android only) Repeating interval. Could be one of `week`, `day`, `hour`, `minute, `time`. If specified as time, it should be accompanied by one more parameter 'repeatTime` which should the number of milliseconds between each interval
-          date: Moment()
-            .set({
-              hours: Moment(this.state.time).hours(),
-              minutes: Moment(this.state.time).minutes(),
-              seconds: 0
-            })
-            .toDate()
-        });
+    if (this.props.item) {
+      if (this.props.item.doc) {
       }
+    } else {
+      this.collection.add({
+        time: this.state.time,
+        direction: this.state.direction,
+        transport: this.state.transport,
+        uid: this.props.userId
+      });
     }
-    var dateTime = new Date(Date.now() + 60 * 1000);
-
-    this.setState({
-      select: null,
-      modalVisible: !this.state.modalVisible
-    });
   };
 }
 

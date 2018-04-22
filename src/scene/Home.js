@@ -54,30 +54,7 @@ export default class Home extends Component {
       .firestore()
       .collection("notifications")
       .where("uid", "==", this.props.userId);
-    this.collection = firebase.firestore().collection("notifications");
-
     this.state = {
-      transports: [
-        {
-          name: "bus",
-          active: true
-        },
-        {
-          name: "train"
-        },
-        {
-          name: "car"
-        },
-        {
-          name: "boat"
-        },
-        {
-          name: "jet"
-        },
-        {
-          name: "subway"
-        }
-      ],
       busSchedule: [],
       modalVisible: false,
       pickerVisible: false,
@@ -146,27 +123,10 @@ export default class Home extends Component {
               />
             )}
           />
-          <Fab
-            onPress={() =>
-             Actions.Edit()
-            }
-            icon={"md-add"}
-          />
+          <Fab onPress={() => Actions.Edit({userId : this.props.userId})} icon={"md-add"} />
         </View>
       </Container>
     );
-  }
-  selectPicker(value) {
-    var tab = [];
-    this.state.transports.forEach(item => {
-      var obj = item;
-      if (value != obj) obj.active = null;
-      else {
-        obj.active = true;
-      }
-      tab.push(obj);
-    });
-    this.setState({ transports: tab });
   }
   compareNotification(a, b) {
     if (a.active && !b.active) return -1;
@@ -189,25 +149,9 @@ export default class Home extends Component {
     this.setState({ busSchedule: tab });
   }
   selectTransport = item => {
-    var tab = [];
-    this.state.transports.forEach(value => {
-      var obj = value;
-      if (item.transport !== obj.name) obj.active = null;
-      else {
-        obj.active = true;
-      }
-      tab.push(obj);
-    });
-    this.setState({
-      select: item,
-      transports: tab,
-      time: Moment(item.time, "HH:mm").toDate(),
-      direction: item.direction
-    });
     Actions.Edit({
-      direction: this.state.direction,
-      time: this.state.time,
-      select: this.state.select
+      item,
+      userId : this.props.userId
     });
   };
   saveTransport = () => {
