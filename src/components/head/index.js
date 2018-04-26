@@ -25,7 +25,7 @@ class Head extends Component {
           {this.renderLeft()}
         </Left>
         <Body style={styles.textHeader}>
-          <Title>{this.props.text}</Title>
+          <Title style={{color:"#fff"}}>{this.props.text}</Title>
         </Body>
         <Right style={styles.fullStyle}>
           {this.props.right ? <TouchableOpacity onPress={this.props.onPress}>

@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
-import { View, FlatList, TouchableOpacity, StyleSheet } from "react-native";
+import {View, FlatList, TouchableOpacity, StyleSheet} from "react-native";
 
-import { Icon } from "native-base";
+import {Icon} from "native-base";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import LinearGradient from "react-native-linear-gradient";
 import _ from "lodash";
@@ -10,7 +10,14 @@ class PickerIcon extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      transports: ["bus", "train", "car", "boat", "jet", "subway"],
+      transports: [
+        "bus",
+        "train",
+        "car",
+        "boat",
+        "jet",
+        "subway"
+      ],
       select: 0
     };
   }
@@ -21,7 +28,7 @@ class PickerIcon extends Component {
         var index = _.indexOf(this.state.transports, String(this.props.select));
         console.log(index);
         if (index > -1) {
-          this.setState({ select: index });
+          this.setState({select: index});
         }
       }
     }
@@ -34,43 +41,46 @@ class PickerIcon extends Component {
           contentContainerStyle={styles.flatListStyle}
           data={this.state.transports}
           extraData={this.state.select}
-          renderItem={item =>
-            item.index == this.state.select ? (
-              <LinearGradient
-                colors={["#2196F3", "#E3F"]}
-                style={styles.gradientIcon}
-              >
-                <TouchableOpacity onPress={() => this.onChange(item)}>
-                  <Icon name={item.item} style={styles.activeIcon} />
-                </TouchableOpacity>
-              </LinearGradient>
-            ) : (
+          renderItem={item => item.index == this.state.select
+          ? (
+            <LinearGradient colors={["#2196F3", "#E3F"]} style={styles.gradientIcon}>
               <TouchableOpacity onPress={() => this.onChange(item)}>
-                <Icon name={item.item} style={styles.unActiveIcon} />
+                <Icon ios={'md-' + item.item} android={item.item} style={styles.activeIcon}/>
               </TouchableOpacity>
-            )
-          }
-          horizontal={true}
-        />
+            </LinearGradient>
+          )
+          : (
+            <TouchableOpacity onPress={() => this.onChange(item)}>
+              <Icon ios={'md-' + item.item} android={item.item} style={styles.unActiveIcon}/>
+            </TouchableOpacity>
+          )}
+          horizontal={true}/>
       </View>
     );
   }
   onChange = item => {
-    this.setState({ select: item.index });
-    this.props.onChange(item);
+    this.setState({select: item.index});
+    this
+      .props
+      .onChange(item);
   };
 }
 
 export default PickerIcon;
 
 const styles = StyleSheet.create({
-  unActiveIcon: { paddingLeft: 10, paddingRight: 10 },
+  unActiveIcon: {
+    paddingLeft: 10,
+    paddingRight: 10
+  },
   activeIcon: {
     paddingLeft: 10,
     paddingRight: 10,
     color: "white"
   },
-  gradientIcon: { borderRadius: 20 },
+  gradientIcon: {
+    borderRadius: 20
+  },
   flatListStyle: {
     flex: 1,
     justifyContent: "space-around",

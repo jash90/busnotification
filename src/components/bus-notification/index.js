@@ -39,7 +39,7 @@ class BusNotification extends Component {
   render() {
     return <View style={styles.itemContener}>
       <TouchableOpacity onPress={() => this.onDelete()}>
-        <Icon name={"close"} style={styles.colorStyle}/>
+        <Icon ios={'md-close'} android={"close"} style={styles.colorStyle}/>
       </TouchableOpacity>
       {this.props.active
         ? <TouchableOpacity
@@ -49,7 +49,10 @@ class BusNotification extends Component {
             alignItems: "center"
           }}
             onPress={() => this.toggleComplete()}>
-            <MaterialIcons name="notifications" size={30} color="#000"/>
+            <MaterialIcons
+              name="notifications"
+              size={30}
+              color="#000"/>
           </TouchableOpacity>
         : <TouchableOpacity
           style={{
@@ -58,7 +61,10 @@ class BusNotification extends Component {
           alignItems: "center"
         }}
           onPress={() => this.toggleComplete()}>
-          <MaterialIcons name="notifications-off" size={30} color="#000"/>
+          <MaterialIcons
+            name="notifications-off"
+            size={30}
+            color="#000"/>
         </TouchableOpacity>}
       <TouchableOpacity
         style={{
@@ -71,7 +77,7 @@ class BusNotification extends Component {
         <View style={{
           width: 45
         }}>
-          <Icon name={this.props.transport} style={styles.colorStyle}/>
+          <Icon ios={'md-'+this.props.transport} android={this.props.transport} style={styles.colorStyle}/>
         </View>
         <Text style={styles.colorStyle}>
           {Moment(this.props.time).format("HH:mm")}

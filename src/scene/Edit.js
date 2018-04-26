@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   Platform,
   StyleSheet,
@@ -30,7 +30,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import LinearGradient from "react-native-linear-gradient";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Moment from "moment";
-import { Actions } from "react-native-router-flux";
+import {Actions} from "react-native-router-flux";
 
 import PickerIcon from "@components/picker-icon";
 import Fab from "@components/fab";
@@ -50,7 +50,9 @@ import PushNotificationAndroid from "react-native-push-notification";
 export default class Edit extends Component {
   constructor(props) {
     super(props);
-    this.collection = firebase.firestore().collection("notifications");
+    this.collection = firebase
+      .firestore()
+      .collection("notifications");
 
     this.state = {
       busSchedule: [],
@@ -65,13 +67,13 @@ export default class Edit extends Component {
   componentWillMount = () => {
     if (this.props.item) {
       if (this.props.item.time) {
-        this.setState({ time: this.props.item.time });
+        this.setState({time: this.props.item.time});
       }
       if (this.props.item.transport) {
-        this.setState({ transport: this.props.item.transport });
+        this.setState({transport: this.props.item.transport});
       }
       if (this.props.item.direction) {
-        this.setState({ direction: this.props.item.direction });
+        this.setState({direction: this.props.item.direction});
       }
       console.log(this.props);
     }
@@ -87,53 +89,41 @@ export default class Edit extends Component {
           text={"Add Transport"}
           right={true}
           icon={"save"}
-          onPress={() => this.saveTransport()}
-        />
-        <LinearGradient
-          colors={["#2196F3", "#E3F"]}
-          style={styles.contentContener}
-        >
+          onPress={() => this.saveTransport()}/>
+        <LinearGradient colors={["#2196F3", "#E3F"]} style={styles.contentContener}>
           <PickerIcon
             onChange={item => this.selectPicker(item)}
-            select={this.state.transport}
-          />
+            select={this.state.transport}/>
           <View style={styles.viewTime}>
             <TouchableOpacity
-              onPress={() =>
-                this.setState({
-                  pickerVisible: !this.state.pickerVisible
-                })
-              }
-            >
+              onPress={() => this.setState({
+              pickerVisible: !this.state.pickerVisible
+            })}>
               <Text style={styles.textTime}>
                 {Moment(this.state.time).format("HH:mm")}
               </Text>
             </TouchableOpacity>
-            <Icon name="time" />
+            <Icon ios='md-time' android="time"/>
           </View>
           <Input
             underlineColorAndroid="transparent"
             placeholder="Enter City"
             value={this.state.direction}
-            onChangeText={text => this.setState({ direction: text })}
-          />
+            onChangeText={text => this.setState({direction: text})}/>
         </LinearGradient>
         <DateTimePicker
           date={this.state.time}
           isVisible={this.state.pickerVisible}
-          onConfirm={time => this.setState({ time })}
-          onCancel={() =>
-            this.setState({
-              pickerVisible: !this.state.pickerVisible
-            })
-          }
-          mode={"time"}
-        />
+          onConfirm={time => this.setState({time})}
+          onCancel={() => this.setState({
+          pickerVisible: !this.state.pickerVisible
+        })}
+          mode={"time"}/>
       </View>
     );
   }
   selectPicker(item) {
-    this.setState({ transport: item.item });
+    this.setState({transport: item.item});
   }
   saveTransport = () => {
     if (this.state.direction.length == 0) {
@@ -142,15 +132,26 @@ export default class Edit extends Component {
     }
     if (this.props.item) {
       if (this.props.item.doc) {
+        this
+          .props
+          .item
+          .doc
+          .ref
+          .update({time: this.state.time, direction: this.state.direction, transport: this.state.transport, active: false});
       }
     } else {
-      this.collection.add({
-        time: this.state.time,
-        direction: this.state.direction,
-        transport: this.state.transport,
-        uid: this.props.userId
-      });
-    }
+      this
+        .collection
+        .add({
+          time: this.state.time,
+          direction: this.state.direction,
+          transport: this.state.transport,
+          id: Moment().unix(),
+          uid: this.props.userId,
+          active: false
+        });
+      }
+    Actions.pop();
   };
 }
 

@@ -138,82 +138,10 @@ export default class Home extends Component {
     if (a.time > b.time) return 1;
     return 0;
   }
-  toggleNotification(value) {
-    var tab = [];
-    this.state.busSchedule.forEach(item => {
-      if (value == item) {
-        item.active = !item.active;
-      }
-      tab.push(item);
-    });
-    this.setState({ busSchedule: tab });
-  }
   selectTransport = item => {
     Actions.Edit({
       item,
       userId : this.props.userId
-    });
-  };
-  saveTransport = () => {
-    if (this.state.direction.length == 0) {
-      alert("City is empty.");
-      return;
-    }
-    var transport = "";
-    if (this.state.select == null) {
-      var obj = {
-        time: this.state.time,
-        direction: this.state.direction,
-        uid: this.props.userId,
-        id: Moment().unix()
-      };
-      this.state.transports.forEach(element => {
-        if (element.active == true) {
-          obj.transport = element.name;
-        }
-      });
-      this.collection.add(obj);
-    }
-    if (this.state.select != null) {
-      this.state.transports.forEach(element => {
-        if (element.active == true) {
-          transport = element.name;
-        }
-      });
-      this.state.select.doc.ref.update({
-        time: this.state.time,
-        direction: this.state.direction,
-        transport
-      });
-      if (this.state.select.active) {
-        PushNotification.cancelLocalNotifications({ id: this.state.select.id });
-        PushNotification.localNotificationSchedule({
-          id: this.state.select.id,
-          autoCancel: false,
-          color: "#2196F3", // (optional) default: system default
-          title: "Transport Notification", // (optional)
-          message:
-            this.state.direction +
-            " " +
-            Moment(this.state.time).format("HH:mm") +
-            " " +
-            transport,
-          repeatType: "day", // (Android only) Repeating interval. Could be one of `week`, `day`, `hour`, `minute, `time`. If specified as time, it should be accompanied by one more parameter 'repeatTime` which should the number of milliseconds between each interval
-          date: Moment()
-            .set({
-              hours: Moment(this.state.time).hours(),
-              minutes: Moment(this.state.time).minutes(),
-              seconds: 0
-            })
-            .toDate()
-        });
-      }
-    }
-    var dateTime = new Date(Date.now() + 60 * 1000);
-
-    this.setState({
-      select: null,
-      modalVisible: !this.state.modalVisible
     });
   };
 }
