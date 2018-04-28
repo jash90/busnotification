@@ -5,8 +5,9 @@ import { Icon } from "native-base";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import LinearGradient from "react-native-linear-gradient";
+import Color from "../../Color";
 
-class FacebookButton extends Component {
+export default class FacebookButton extends Component {
   render() {
     return (
       <View
@@ -14,8 +15,8 @@ class FacebookButton extends Component {
           borderRadius: 20,
           width: "90%",
           height: 60,
-          justifyContent:"center",
-          backgroundColor: "#3b5998"
+          justifyContent: "center",
+          backgroundColor: Color.facebook
         }}
       >
         <TouchableOpacity
@@ -35,5 +36,3 @@ class FacebookButton extends Component {
     );
   }
 }
-
-export default FacebookButton;

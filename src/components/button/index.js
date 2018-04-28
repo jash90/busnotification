@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-
 import { TouchableOpacity, View, Text } from "react-native";
 
-class Button extends Component {
+import Color from "../../Color";
+
+export default class Button extends Component {
   render() {
     return (
       <TouchableOpacity
@@ -16,7 +17,7 @@ class Button extends Component {
             height: 60,
             justifyContent: "center",
             alignItems: "center",
-            backgroundColor: "#2196F3",
+            backgroundColor: Color.primaryColor,
             alignSelf: "center"
           }}
         >
@@ -28,5 +29,3 @@ class Button extends Component {
     );
   }
 }
-
-export default Button;

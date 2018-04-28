@@ -55,7 +55,7 @@ Lang = {
     pl: "Musisz powtórzyć hasło."
   },
   passwordSame: {
-    en: "Passwords must be the same.",
+    en: "Password must match.",
     pl: "Hasła muszą być takie same."
   },
   emailIncorrect: {
@@ -66,7 +66,7 @@ Lang = {
     en: "Account ",
     pl: "Konto "
   },
-  beCreated: {
+  beenCreated: {
     en: " has been created.",
     pl: " zostało utworzone."
   },
@@ -97,9 +97,17 @@ Lang = {
     en: "Logout",
     pl: "Wyloguj"
   },
+  passwordIncorrect: {
+    en: "The password or user is invalid.",
+    pl: "Login lub hasło jest nieprawidłowe."
+  },
+  userNotFound: {
+    en: "The user is not found.",
+    pl: "Użytkownik nie istnieje."
+  },
   bus: { en: "bus", pl: "bus" },
   train: { en: "train", pl: "pociąg" },
-  car: { en: "auto", pl: "samochód" },
+  car: { en: "car", pl: "samochód" },
   boat: { en: "boat", pl: "łódź" },
   jet: { en: "jet", pl: "samolot" },
   subway: { en: "metro", pl: "metro" }

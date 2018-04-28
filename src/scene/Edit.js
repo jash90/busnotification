@@ -41,6 +41,7 @@ import Button from "@components/button";
 import Input from "@components/input";
 import Head from "@components/head";
 import firebase from "react-native-firebase";
+import Color from "../Color";
 
 import BusNotification from "@components/bus-notification";
 import PushNotification from "react-native-push-notification";
@@ -90,7 +91,7 @@ export default class Edit extends Component {
           right={true}
           icon={"save"}
           onPress={() => this.saveTransport()}/>
-        <LinearGradient colors={["#2196F3", "#E3F"]} style={styles.contentContener}>
+        <LinearGradient colors={[Color.primaryColor, Color.accentColor]} style={styles.contentContener}>
           <PickerIcon
             onChange={item => this.selectPicker(item)}
             select={this.state.transport}/>
@@ -182,7 +183,7 @@ var styles = StyleSheet.create({
   modalContener: {
     width: "100%",
     height: "100%",
-    backgroundColor: "#2196f3"
+    backgroundColor: Color.primaryColor
   },
   contentContener: {
     flex: 1,

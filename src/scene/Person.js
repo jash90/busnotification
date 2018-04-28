@@ -31,6 +31,7 @@ import Logo from "@components/logo";
 import Input from "@components/input";
 import Head from "@components/head";
 import Button from "@components/button";
+import Color from "../Color";
 
 import Separator from "@components/separator";
 import firebase from "react-native-firebase";

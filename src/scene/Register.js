@@ -36,6 +36,7 @@ import FacebookButton from "@components/facebook-button";
 import Button from "@components/button";
 import Input from "@components/input";
 import Head from "@components/head";
+import Color from "../Color";
 
 import firebase from "react-native-firebase";
 

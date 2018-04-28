@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { View, Image, Text, TouchableOpacity } from "react-native";
+import Color from "../../Color";
 
-class GoogleButton extends Component {
+export default class GoogleButton extends Component {
   render() {
     return (
       <View
@@ -25,7 +26,7 @@ class GoogleButton extends Component {
             source={require("../../img/google.jpg")}
             style={{ width: 20, height: 20 }}
           />
-          <Text style={{ color: "#756d6d", fontSize: 20, paddingLeft: 10 }}>
+          <Text style={{ color: Color.google, fontSize: 20, paddingLeft: 10 }}>
             {this.props.text}
           </Text>
         </TouchableOpacity>
@@ -33,5 +34,3 @@ class GoogleButton extends Component {
     );
   }
 }
-
-export default GoogleButton;

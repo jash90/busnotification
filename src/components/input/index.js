@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { TextInput, StyleSheet } from "react-native";
 
-class Input extends Component {
+export default class Input extends Component {
   render() {
     return (
       <TextInput
@@ -16,8 +16,6 @@ class Input extends Component {
     );
   }
 }
-
-export default Input;
 
 const styles = StyleSheet.create({
   textInputStyle: {

@@ -41,11 +41,13 @@ import Button from "@components/button";
 import Input from "@components/input";
 import Head from "@components/head";
 import firebase from "react-native-firebase";
+import Color from "../Color";
 
 import BusNotification from "@components/bus-notification";
 import PushNotification from "react-native-push-notification";
 import AppLink from "react-native-app-link";
 import PushNotificationAndroid from "react-native-push-notification";
+
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -173,7 +175,7 @@ var styles = StyleSheet.create({
   modalContener: {
     width: "100%",
     height: "100%",
-    backgroundColor: "#2196f3"
+    backgroundColor: Color.primaryColor
   },
   contentContener: {
     flex: 1,

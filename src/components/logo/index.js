@@ -4,6 +4,7 @@ import { Icon } from "native-base";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import LinearGradient from "react-native-linear-gradient";
+import Color from "../../Color";
 
 export default class Logo extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ export default class Logo extends Component {
   render() {
     return (
       <LinearGradient
-        colors={["#2196F3", "#E3F"]}
+        colors={[Color.primaryColor, Color.accentColor]}
         style={{
           borderRadius: 20,
           width: this.props.size,
@@ -31,7 +32,7 @@ export default class Logo extends Component {
               paddingLeft: 10,
               paddingRight: 10,
               color: "white",
-              fontSize: this.props.size-20,
+              fontSize: this.props.size - 20,
               alignSelf: "center"
             }}
           />

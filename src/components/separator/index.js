@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { View, Text, StyleSheet } from "react-native";
 
-class Separator extends Component {
+export default class Separator extends Component {
   render() {
     return (
       <View style={styles.contener}>
@@ -11,8 +11,6 @@ class Separator extends Component {
     );
   }
 }
-
-export default Separator;
 
 const styles = StyleSheet.create({
   text: { fontSize: 20, color: "black" },
