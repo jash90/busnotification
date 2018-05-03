@@ -24,8 +24,8 @@ export default class Language {
       en: "Email"
     },
     password: {
-      en: "password",
-      pl: "hasło"
+      en: "Password",
+      pl: "Hasło"
     },
     login: {
       en: "Log in",
@@ -63,11 +63,11 @@ export default class Language {
       en: "Password is required.",
       pl: "Hasło jest wymagany."
     },
-    emailRequire: {
+    emailRequired: {
       en: "Email is required.",
       pl: "Email jest wymagany."
     },
-    repeatPassRequire: {
+    repeatPassRequired: {
       en: "Repeat password is required.",
       pl: "Musisz powtórzyć hasło."
     },
@@ -95,7 +95,7 @@ export default class Language {
       en: "Enter city",
       pl: "Wprowadź miasto"
     },
-    cityRequire: {
+    cityRequired: {
       en: "City is required.",
       pl: "Miasto jest wymagane."
     },

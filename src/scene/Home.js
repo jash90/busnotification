@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import {
   Platform,
   StyleSheet,
@@ -30,7 +30,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import LinearGradient from "react-native-linear-gradient";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Moment from "moment";
-import {Actions} from "react-native-router-flux";
+import { Actions } from "react-native-router-flux";
 
 import PickerIcon from "@components/picker-icon";
 import Fab from "@components/fab";
@@ -42,7 +42,7 @@ import Input from "@components/input";
 import Head from "@components/head";
 import firebase from "react-native-firebase";
 import Color from "../Color";
-import Language from '../Lang'
+import Language from "../Lang";
 import BusNotification from "@components/bus-notification";
 import PushNotification from "react-native-push-notification";
 import AppLink from "react-native-app-link";
@@ -67,37 +67,34 @@ export default class Home extends Component {
     };
   }
   componentDidMount() {
-    this.unsubscribe = this
-      .ref
-      .onSnapshot(this.onCollectionUpdate);
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
 
   componentWillUnmount = action => {
     this.unsubscribe();
-    DeviceEventEmitter.removeListener("notificationActionReceived", action => this.notificationAction(action));
+    // DeviceEventEmitter.removeListener("notificationActionReceived", action => this.notificationAction(action));
   };
 
   onCollectionUpdate = querySnapshot => {
     const busSchedule = [];
     querySnapshot.forEach(doc => {
-      const {time, direction, transport, active} = doc.data();
-      busSchedule.push({time, direction, transport, active, doc});
+      const { time, direction, transport, active } = doc.data();
+      busSchedule.push({ time, direction, transport, active, doc });
     });
     console.log(querySnapshot);
-    this.setState({busSchedule});
+    this.setState({ busSchedule });
   };
 
   componentWillMount = () => {
-    Language.setL('pl');
-    console.log(Language.get('login'));
-    PushNotificationAndroid.registerNotificationActions(["Yes", "No"]);
-    DeviceEventEmitter.addListener("notificationActionReceived", action => this.notificationAction(action));
+    Language.setL("pl");
+    // PushNotificationAndroid.registerNotificationActions(["Yes", "No"]);
+    // DeviceEventEmitter.addListener("notificationActionReceived", action => this.notificationAction(action));
     PushNotification.configure({
-      onRegister: function (token) {
-        console.log("TOKEN:", token);
+      onRegister: function(token) {
+        //  console.log("TOKEN:", token);
       },
-      onNotification: function (notification) {
-        console.log("NOTIFICATION:", notification);
+      onNotification: function(notification) {
+        //  console.log("NOTIFICATION:", notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       }
     });
@@ -110,37 +107,41 @@ export default class Home extends Component {
           right={true}
           icon={"person"}
           onPress={() => Actions.Person()}
-          text={Language.get('appName')}/>
+          text={Language.get("appName")}
+        />
         <View style={styles.fullStyles}>
           <FlatList
-            data={this
-            .state
-            .busSchedule
-            .sort(this.compareDate)
-            .sort(this.compareNotification)}
+            data={this.state.busSchedule
+              .sort(this.compareDate)
+              .sort(this.compareNotification)}
             contentContainerStyle={styles.flatListStyle}
-            renderItem={({item}) => (<BusNotification openModal={() => this.selectTransport(item)} {...item}/>)}/>
-          <Fab onPress={() => Actions.Edit({userId: this.props.userId})} icon={"md-add"}/>
+            renderItem={({ item }) => (
+              <BusNotification
+                openModal={() => this.selectTransport(item)}
+                {...item}
+              />
+            )}
+          />
+          <Fab
+            onPress={() => Actions.Edit({ userId: this.props.userId })}
+            icon={"md-add"}
+          />
         </View>
       </Container>
     );
   }
   compareNotification(a, b) {
-    if (a.active && !b.active) 
-      return -1;
-    if (!a.active && b.active) 
-      return 1;
+    if (a.active && !b.active) return -1;
+    if (!a.active && b.active) return 1;
     return 0;
   }
   compareDate(a, b) {
-    if (a.time < b.time) 
-      return -1;
-    if (a.time > b.time) 
-      return 1;
+    if (a.time < b.time) return -1;
+    if (a.time > b.time) return 1;
     return 0;
   }
   selectTransport = item => {
-    Actions.Edit({item, userId: this.props.userId});
+    Actions.Edit({ item, userId: this.props.userId });
   };
 }
 

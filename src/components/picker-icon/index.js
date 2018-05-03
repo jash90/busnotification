@@ -21,9 +21,9 @@ export default class PickerIcon extends Component {
   componentWillMount = () => {
     if (this.props) {
       if (this.props.select) {
-        console.log(this.props.select);
+        // console.log(this.props.select);
         var index = _.indexOf(this.state.transports, String(this.props.select));
-        console.log(index);
+        //  console.log(index);
         if (index > -1) {
           this.setState({ select: index });
         }
@@ -47,7 +47,7 @@ export default class PickerIcon extends Component {
                 <TouchableOpacity onPress={() => this.onChange(item)}>
                   <Icon
                     ios={"md-" + item.item}
-                    android={item.item}
+                    android={"md-" + item.item}
                     style={styles.activeIcon}
                   />
                 </TouchableOpacity>
@@ -56,7 +56,7 @@ export default class PickerIcon extends Component {
               <TouchableOpacity onPress={() => this.onChange(item)}>
                 <Icon
                   ios={"md-" + item.item}
-                  android={item.item}
+                  android={"md-" + item.item}
                   style={styles.unActiveIcon}
                 />
               </TouchableOpacity>

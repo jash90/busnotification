@@ -32,6 +32,7 @@ import Input from "@components/input";
 import Head from "@components/head";
 import Button from "@components/button";
 import Color from "../Color";
+import Language from "../Lang";
 
 import Separator from "@components/separator";
 import firebase from "react-native-firebase";
@@ -45,22 +46,30 @@ export default class Person extends Component {
   render() {
     return (
       <Container>
-        <Head back={true} right={true} text={"Edit Profile"} icon={"save"} />
+        <Head
+          back={true}
+          right={true}
+          text={Language.get("editProfile")}
+          icon={"save"}
+        />
         <Content style={styles.fullStyle}>
           <Logo size={100} />
-          <Separator text="Change Password" />
+          <Separator text={Language.get("changePassword")} />
           <Input
             underlineColorAndroid="transparent"
-            placeholder="Password"
+            placeholder={Language.get("password")}
             secureTextEntry={true}
           />
           <Input
             underlineColorAndroid="transparent"
-            placeholder="Repeat Password"
+            placeholder={Language.get("repeatPassword")}
             secureTextEntry={true}
           />
           <View style={{ marginTop: 10 }}>
-            <Button text={"Logout"} onPress={() => this.signOutUser()} />
+            <Button
+              text={Language.get("logout")}
+              onPress={() => this.signOutUser()}
+            />
           </View>
         </Content>
       </Container>

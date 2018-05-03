@@ -8,7 +8,7 @@ import {
   Modal,
   TextInput,
   Image,
-  ToastAndroid,
+  ToastAndroid
 } from "react-native";
 
 import {
@@ -37,6 +37,7 @@ import Button from "@components/button";
 import Input from "@components/input";
 import Head from "@components/head";
 import Color from "../Color";
+import Language from "../Lang";
 
 import firebase from "react-native-firebase";
 
@@ -53,35 +54,33 @@ export default class Register extends Component {
   render() {
     return (
       <Container>
-        <Head back={true} text={"Registration"} />
+        <Head back={true} text={Language.get("registration")} />
         <Content style={styles.fullStyle}>
           <Logo size={60} />
           <Input
             underlineColorAndroid="transparent"
-            placeholder="Email"
+            placeholder={Language.get("email")}
             value={this.state.email}
             onChangeText={text => this.setState({ email: text })}
           />
           <Input
             underlineColorAndroid="transparent"
-            placeholder="Password"
+            placeholder={Language.get("password")}
             secureTextEntry={true}
             value={this.state.password}
             onChangeText={text => this.setState({ password: text })}
           />
           <Input
             underlineColorAndroid="transparent"
-            placeholder="Repeat Password"
+            placeholder={Language.get("repeatPassword")}
             secureTextEntry={true}
             value={this.state.repeatpassword}
             onChangeText={text => this.setState({ repeatpassword: text })}
           />
           <View style={{ marginTop: 10 }}>
             <Button
-              text="Register"
-              onPress={() =>
-                this.register()
-              }
+              text={Language.get("register")}
+              onPress={() => this.register()}
             />
           </View>
         </Content>
@@ -90,23 +89,23 @@ export default class Register extends Component {
   }
   register() {
     if (this.state.email === "") {
-      alert("Podaj Email");
+      alert(Language.get("emailRequired"));
       return;
     }
     if (this.state.password === "") {
-      alert("Podaj Hasło");
+      alert(Language.get("passwordRequired"));
       return;
     }
     if (this.state.repeatpassword === "") {
-      alert("Powtórz Hasło");
+      alert(Language.get("repeatPassRequired"));
       return;
     }
     if (!this.state.password === this.state.repeatpassword) {
-      alert("Hasła muszą być takie same");
+      alert(Language.get("passwordSame"));
     }
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(this.state.email) === false) {
-      alert("Email jest niepoprawny.");
+      alert(Language.get("emailIncorrect"));
       return;
     }
     this.setState({ loading: true });
@@ -118,7 +117,9 @@ export default class Register extends Component {
       )
       .then(() => {
         ToastAndroid.show(
-          "Konto " + this.state.email + " zostało utworzone.",
+          Language.get("account") +
+            this.state.email +
+            Language.get("beenCreated"),
           ToastAndroid.SHORT
         );
         Actions.Login({
