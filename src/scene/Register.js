@@ -37,7 +37,7 @@ import Button from "@components/button";
 import Input from "@components/input";
 import Head from "@components/head";
 import Color from "../Color";
-import Language from "../Lang";
+import Language from "../Language";
 
 import firebase from "react-native-firebase";
 

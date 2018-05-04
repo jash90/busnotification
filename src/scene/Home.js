@@ -42,7 +42,7 @@ import Input from "@components/input";
 import Head from "@components/head";
 import firebase from "react-native-firebase";
 import Color from "../Color";
-import Language from "../Lang";
+import Language from "../Language";
 import BusNotification from "@components/bus-notification";
 import PushNotification from "react-native-push-notification";
 import AppLink from "react-native-app-link";
@@ -86,7 +86,7 @@ export default class Home extends Component {
   };
 
   componentWillMount = () => {
-    Language.setL("pl");
+    // Language.setL("pl");
     // PushNotificationAndroid.registerNotificationActions(["Yes", "No"]);
     // DeviceEventEmitter.addListener("notificationActionReceived", action => this.notificationAction(action));
     PushNotification.configure({

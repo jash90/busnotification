@@ -32,7 +32,7 @@ import Input from "@components/input";
 import Head from "@components/head";
 import Button from "@components/button";
 import Color from "../Color";
-import Language from "../Lang";
+import Language from "../Language";
 
 import Separator from "@components/separator";
 import firebase from "react-native-firebase";

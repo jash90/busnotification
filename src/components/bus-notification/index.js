@@ -19,7 +19,7 @@ import AppLink from "react-native-app-link";
 import PushNotificationAndroid from "react-native-push-notification";
 
 import Color from "../../Color";
-import Language from "../../Lang";
+import Language from "../../Language";
 
 export default class BusNotification extends Component {
   constructor(props) {

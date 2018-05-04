@@ -37,7 +37,7 @@ import Button from "@components/button";
 import Input from "@components/input";
 import Head from "@components/head";
 import Color from "../Color";
-import Language from "../Lang";
+import Language from "../Language";
 
 import firebase from "react-native-firebase";
 import Toast from "react-native-simple-toast";
@@ -51,7 +51,7 @@ export default class Login extends Component {
     };
   }
   componentWillMount = () => {
-    Language.setL("pl");
+    // Language.setL("pl");
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         Toast.show(Language.get("loginAs") + user.email + ".", Toast.SHORT);

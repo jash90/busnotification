@@ -42,7 +42,7 @@ import Input from "@components/input";
 import Head from "@components/head";
 import firebase from "react-native-firebase";
 import Color from "../Color";
-import Language from "../Lang";
+import Language from "../Language";
 
 import BusNotification from "@components/bus-notification";
 import PushNotification from "react-native-push-notification";
