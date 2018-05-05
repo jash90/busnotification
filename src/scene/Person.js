@@ -36,11 +36,15 @@ import Language from "../Language";
 
 import Separator from "@components/separator";
 import firebase from "react-native-firebase";
+import Toast from "react-native-simple-toast";
 
 export default class Person extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      password: "",
+      repeatPassword: ""
+    };
   }
 
   render() {
@@ -51,6 +55,7 @@ export default class Person extends Component {
           right={true}
           text={Language.get("editProfile")}
           icon={"save"}
+          onPress={() => this.changePassword()}
         />
         <Content style={styles.fullStyle}>
           <Logo size={100} />
@@ -59,11 +64,15 @@ export default class Person extends Component {
             underlineColorAndroid="transparent"
             placeholder={Language.get("password")}
             secureTextEntry={true}
+            value={this.state.password}
+            onChangeText={text => this.setState({ password: text })}
           />
           <Input
             underlineColorAndroid="transparent"
             placeholder={Language.get("repeatPassword")}
             secureTextEntry={true}
+            value={this.state.repeatPassword}
+            onChangeText={text => this.setState({ repeatPassword: text })}
           />
           <View style={{ marginTop: 10 }}>
             <Button
@@ -83,6 +92,32 @@ export default class Person extends Component {
     } catch (e) {
       console.log(e);
     }
+  };
+  changePassword = () => {
+    if (this.state.password === "") {
+      alert(Language.get("passwordRequired"));
+      return;
+    }
+    if (this.state.repeatPassword === "") {
+      alert(Language.get("repeatPassRequired"));
+      return;
+    }
+    if (this.state.password !== this.state.repeatPassword) {
+      alert(Language.get("passwordSame"));
+      return;
+    }
+    console.log(this.state.password);
+    console.log(this.state.repeatPassword);
+    // var user = firebase.auth().currentUser;
+    // user
+    //   .updatePassword(this.state.password)
+    //   .then(() => {
+    //     Toast.show(Language.get("passwordChanged"), Toast.SHORT);
+    //   })
+    //   .catch(error => {
+    //     Toast.show(Language.get("passwordWeak"), Toast.SHORT);
+    //     console.log(error);
+    //   });
   };
 }
 

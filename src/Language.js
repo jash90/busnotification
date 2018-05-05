@@ -40,8 +40,8 @@ export default class Language {
       pl: "Połącz z Facebook"
     },
     loginAs: {
-      en: "You have been logged as",
-      pl: "Zalogowałeś się jako"
+      en: "You have been logged as ",
+      pl: "Zalogowałeś się jako "
     },
     registration: {
       en: "Registration",
@@ -61,7 +61,7 @@ export default class Language {
     },
     passwordRequired: {
       en: "Password is required.",
-      pl: "Hasło jest wymagany."
+      pl: "Hasło jest wymagane."
     },
     emailRequired: {
       en: "Email is required.",
@@ -121,6 +121,14 @@ export default class Language {
     userNotFound: {
       en: "The user is not found.",
       pl: "Użytkownik nie istnieje."
+    },
+    passwordChanged:{
+      en:"Password is changed.",
+      pl:"Hasło zmienione"
+    },
+    passwordWeak:{
+      en:"Password is too weak.",
+      pl:"Hasło za słabe."
     },
     bus: {
       en: "bus",

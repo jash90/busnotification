@@ -47,7 +47,7 @@ export default class Register extends Component {
     this.state = {
       email: "",
       password: "",
-      repeatpassword: ""
+      repeatPassword: ""
     };
   }
 
@@ -74,8 +74,8 @@ export default class Register extends Component {
             underlineColorAndroid="transparent"
             placeholder={Language.get("repeatPassword")}
             secureTextEntry={true}
-            value={this.state.repeatpassword}
-            onChangeText={text => this.setState({ repeatpassword: text })}
+            value={this.state.repeatPassword}
+            onChangeText={text => this.setState({ repeatPassword: text })}
           />
           <View style={{ marginTop: 10 }}>
             <Button
@@ -96,12 +96,13 @@ export default class Register extends Component {
       alert(Language.get("passwordRequired"));
       return;
     }
-    if (this.state.repeatpassword === "") {
+    if (this.state.repeatPassword === "") {
       alert(Language.get("repeatPassRequired"));
       return;
     }
-    if (!this.state.password === this.state.repeatpassword) {
+    if (this.state.password !== this.state.repeatPassword) {
       alert(Language.get("passwordSame"));
+      return;
     }
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (reg.test(this.state.email) === false) {
