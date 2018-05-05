@@ -6,10 +6,10 @@ import Register from "./src/scene/Register";
 import Person from "./src/scene/Person";
 import Edit from "./src/scene/Edit";
 import Language from "./src/Language";
+import DeviceInfo from 'react-native-device-info';
 export default class App extends Component {
   componentWillMount() {
-    Language.setL("en");
-   // console.log(lang);
+    Language.setL(DeviceInfo.getDeviceLocale().substring(0,2));
   }
   render() {
     return (

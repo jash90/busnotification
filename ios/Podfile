@@ -10,4 +10,6 @@ pod 'Firebase/Auth'
 pod 'Firebase/Firestore'
 pod 'GoogleSignIn'
 
+  pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
+
 end

@@ -95,7 +95,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "pl.zimny.busnotification"
@@ -146,11 +146,18 @@ android {
         }
     }
 }
-
+ext {
+    // dependency versions
+    googlePlayServicesVersion = "11.8.0" // default: "+"
+    compileSdkVersion = "23" // default: 23
+    buildToolsVersion = "25.0.2" // default: "25.0.2"
+    targetSdkVersion = "22" // default: 22
+  }
 dependencies {
     compile project(':react-native-snackbar')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-vector-icons')
+    compile project(':react-native-device-info')
     compile(project(':react-native-firebase')) {
         transitive = false
     }
