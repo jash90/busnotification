@@ -8,7 +8,8 @@ import {
   Modal,
   Image,
   ToastAndroid,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from "react-native";
 
 import {
@@ -70,7 +71,7 @@ export default class Login extends Component {
         this.setState({ email });
       }
     } catch (error) {
-      console.log(error);
+      //  console.log(error);
     }
   }
   render() {
@@ -117,7 +118,7 @@ export default class Login extends Component {
       await AsyncStorage.setItem("@login:key", login);
       await AsyncStorage.setItem("@password:key", password);
     } catch (error) {
-      console.log(error);
+      //  console.log(error);
     }
   }
   googleLogin = async () => {
@@ -137,9 +138,12 @@ export default class Login extends Component {
         .auth()
         .signInAndRetrieveDataWithCredential(credential);
 
-      console.info(JSON.stringify(currentUser.user.toJSON()));
-    } catch (e) {
-      console.error(e);
+        GoogleSignin.signOut();
+
+      // console.info(JSON.stringify(currentUser.user.toJSON()));
+    } catch (error) {
+      alert(error);
+      console.log(error);
     }
   };
   facebookLogin = async () => {
@@ -149,36 +153,35 @@ export default class Login extends Component {
         "email"
       ]);
 
-      if (result.isCancelled) {
-        throw new Error("User cancelled request"); // Handle this however fits the flow of your app
-      }
+      // if (result.isCancelled) {
+      //   throw new Error("User cancelled request"); // Handle this however fits the flow of your app
+      // }
 
-      console.log(
-        `Login success with permissions: ${result.grantedPermissions.toString()}`
-      );
+      // console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
 
       // get the access token
       const data = await AccessToken.getCurrentAccessToken();
 
       if (!data) {
-        throw new Error(
-          "Something went wrong obtaining the users access token"
-        ); // Handle this however fits the flow of your app
+        // throw new Error(
+        //   "Something went wrong obtaining the users access token"
+        // ); // Handle this however fits the flow of your app
       }
 
       // create a new firebase credential with the token
       const credential = firebase.auth.FacebookAuthProvider.credential(
         data.accessToken
       );
-
+      LoginManager.logOut();
       // login with credential
       const currentUser = await firebase
         .auth()
         .signInAndRetrieveDataWithCredential(credential);
 
-      console.info(JSON.stringify(currentUser.user.toJSON()));
-    } catch (e) {
-      console.error(e);
+      // console.info(JSON.stringify(currentUser.user.toJSON()));
+    } catch (error) {
+      alert(error);
+      console.log(error);
     }
   };
 
@@ -210,7 +213,7 @@ export default class Login extends Component {
         if (error.code === "auth/user-disabled") {
           Toast.show(Language.get("userNotFound"), Toast.SHORT);
         }
-        console.log(error);
+        // console.log(error);
       });
   }
 }

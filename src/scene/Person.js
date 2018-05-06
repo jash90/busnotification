@@ -90,7 +90,7 @@ export default class Person extends Component {
       await firebase.auth().signOut();
       Actions.Login();
     } catch (e) {
-      console.log(e);
+     // console.log(e);
     }
   };
   changePassword = () => {
@@ -106,18 +106,18 @@ export default class Person extends Component {
       alert(Language.get("passwordSame"));
       return;
     }
-    console.log(this.state.password);
-    console.log(this.state.repeatPassword);
-    // var user = firebase.auth().currentUser;
-    // user
-    //   .updatePassword(this.state.password)
-    //   .then(() => {
-    //     Toast.show(Language.get("passwordChanged"), Toast.SHORT);
-    //   })
-    //   .catch(error => {
-    //     Toast.show(Language.get("passwordWeak"), Toast.SHORT);
-    //     console.log(error);
-    //   });
+    // console.log(this.state.password);
+    // console.log(this.state.repeatPassword);
+    var user = firebase.auth().currentUser;
+    user
+      .updatePassword(this.state.password)
+      .then(() => {
+        Toast.show(Language.get("passwordChanged"), Toast.SHORT);
+      })
+      .catch(error => {
+        Toast.show(Language.get("passwordWeak"), Toast.SHORT);
+        // console.log(error);
+      });
   };
 }
 
