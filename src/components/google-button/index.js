@@ -20,7 +20,7 @@ export default class GoogleButton extends Component {
             justifyContent: "center",
             alignItems: "center"
           }}
-          onPress={() => this.props.onPress}
+          onPress={this.props.onPress}
         >
           <Image
             source={require("../../img/google.jpg")}

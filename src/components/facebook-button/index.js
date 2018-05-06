@@ -25,7 +25,7 @@ export default class FacebookButton extends Component {
             justifyContent: "center",
             alignItems: "center"
           }}
-          onPress={() => this.props.onPress}
+          onPress={this.props.onPress}
         >
           <Icon name="logo-facebook" style={{ color: "white", fontSize: 20 }} />
           <Text style={{ color: "white", fontSize: 20, paddingLeft: 10 }}>
