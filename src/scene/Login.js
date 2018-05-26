@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   Platform,
   StyleSheet,
@@ -28,7 +28,7 @@ import {
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import LinearGradient from "react-native-linear-gradient";
-import { Actions } from "react-native-router-flux";
+import {Actions} from "react-native-router-flux";
 import Moment from "moment";
 
 import Logo from "@components/logo";
@@ -42,33 +42,35 @@ import Language from "../Language";
 
 import firebase from "react-native-firebase";
 import Toast from "react-native-simple-toast";
-import { AccessToken, LoginManager } from "react-native-fbsdk";
-import { GoogleSignin } from "react-native-google-signin";
+import {AccessToken, LoginManager} from "react-native-fbsdk";
+import {GoogleSignin} from "react-native-google-signin";
 
 export default class Login extends Component {
   constructor(props) {
     super(props);
-    this.state = { email: "", password: "" };
+    this.state = {
+      email: "",
+      password: ""
+    };
   }
   componentWillMount = () => {
     // Language.setL("pl");
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        Toast.show(Language.get("loginAs") + user.email + ".", Toast.SHORT);
-        Actions.Home({ userId: user.uid });
-      }
-    });
+    firebase
+      .auth()
+      .onAuthStateChanged(user => {
+        if (user) {
+          Toast.show(Language.get("loginAs") + user.email + ".", Toast.SHORT);
+          Actions.Home({userId: user.uid});
+        }
+      });
   };
 
   async componentDidMount() {
-    this.setState({
-      email: this.props.email,
-      password: this.props.password
-    });
+    this.setState({email: this.props.email, password: this.props.password});
     try {
       const email = await AsyncStorage.getItem("@login:key");
       if (email !== null) {
-        this.setState({ email });
+        this.setState({email});
       }
     } catch (error) {
       //  console.log(error);
@@ -81,33 +83,28 @@ export default class Login extends Component {
           right={true}
           icon={"person-add"}
           text={Language.get("sign")}
-          onPress={() => Actions.Register()}
-        />
+          onPress={() => Actions.Register()}/>
         <View style={styles.fullStyle}>
           <View>
-            <Logo size={150} />
+            <Logo size={150}/>
             <Input
               placeholder={Language.get("email")}
-              onChangeText={text => this.setState({ email: text })}
-              value={this.state.email}
-            />
+              onChangeText={text => this.setState({email: text})}
+              value={this.state.email}/>
             <Input
               placeholder={Language.get("password")}
               secureTextEntry={true}
-              onChangeText={text => this.setState({ password: text })}
-              value={this.state.password}
-            />
+              onChangeText={text => this.setState({password: text})}
+              value={this.state.password}/>
           </View>
           <Content contentContainerStyle={styles.buttonContener}>
-            <Button text={Language.get("login")} onPress={() => this.login()} />
+            <Button text={Language.get("login")} onPress={() => this.login()}/>
             <FacebookButton
               text={Language.get("signFace")}
-              onPress={() => this.facebookLogin()}
-            />
+              onPress={() => this.facebookLogin()}/>
             <GoogleButton
               text={Language.get("signGoogle")}
-              onPress={() => this.googleLogin()}
-            />
+              onPress={() => this.googleLogin()}/>
           </Content>
         </View>
       </Container>
@@ -121,24 +118,24 @@ export default class Login extends Component {
       //  console.log(error);
     }
   }
-  googleLogin = async () => {
+  googleLogin = async() => {
     try {
       // Add any configuration settings here:
-      await GoogleSignin.configure();
+await GoogleSignin.configure({iosClientId: '534584135151-3niv9khhf6ob9dmkj5aim0lbr5uiol5c.apps.googleusercontent.com'});
 
       const data = await GoogleSignin.signIn();
 
       // create a new firebase credential with the token
-      const credential = firebase.auth.GoogleAuthProvider.credential(
-        data.idToken,
-        data.accessToken
-      );
+      const credential = firebase
+        .auth
+        .GoogleAuthProvider
+        .credential(data.idToken, data.accessToken);
       // login with credential
       const currentUser = await firebase
         .auth()
         .signInAndRetrieveDataWithCredential(credential);
 
-        GoogleSignin.signOut();
+      GoogleSignin.signOut();
 
       // console.info(JSON.stringify(currentUser.user.toJSON()));
     } catch (error) {
@@ -146,32 +143,26 @@ export default class Login extends Component {
       console.log(error);
     }
   };
-  facebookLogin = async () => {
+  facebookLogin = async() => {
     try {
-      const result = await LoginManager.logInWithReadPermissions([
-        "public_profile",
-        "email"
-      ]);
+      const result = await LoginManager.logInWithReadPermissions(["public_profile", "email"]);
 
-      // if (result.isCancelled) {
-      //   throw new Error("User cancelled request"); // Handle this however fits the flow of your app
-      // }
-
-      // console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
-
-      // get the access token
+      // if (result.isCancelled) {   throw new Error("User cancelled request"); //
+      // Handle this however fits the flow of your app } console.log(`Login success
+      // with permissions: ${result.grantedPermissions.toString()}`); get the access
+      // token
       const data = await AccessToken.getCurrentAccessToken();
 
       if (!data) {
-        // throw new Error(
-        //   "Something went wrong obtaining the users access token"
-        // ); // Handle this however fits the flow of your app
+        // throw new Error(   "Something went wrong obtaining the users access token" );
+        // // Handle this however fits the flow of your app
       }
 
       // create a new firebase credential with the token
-      const credential = firebase.auth.FacebookAuthProvider.credential(
-        data.accessToken
-      );
+      const credential = firebase
+        .auth
+        .FacebookAuthProvider
+        .credential(data.accessToken);
       LoginManager.logOut();
       // login with credential
       const currentUser = await firebase
@@ -188,17 +179,11 @@ export default class Login extends Component {
   login() {
     firebase
       .auth()
-      .signInAndRetrieveDataWithEmailAndPassword(
-        this.state.email,
-        this.state.password
-      )
+      .signInAndRetrieveDataWithEmailAndPassword(this.state.email, this.state.password)
       .then(data => {
-        Toast.show(
-          Language.get("loginAs") + data.user.email + ".",
-          Toast.SHORT
-        );
+        Toast.show(Language.get("loginAs") + data.user.email + ".", Toast.SHORT);
         this.saveloginhaslo(this.state.email, this.state.password);
-        Actions.Home({ userId: data.user.uid });
+        Actions.Home({userId: data.user.uid});
       })
       .catch(error => {
         if (error.code === "auth/wrong-password") {
