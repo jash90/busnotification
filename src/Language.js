@@ -10,7 +10,7 @@ export default class Language {
   }
   static get(text) {
     if (!this.Lang[text][this.l]) {
-      return this.Lang[text]['en'];
+      return this.Lang[text]["en"];
     } else {
       return this.Lang[text][this.l];
     }
@@ -122,13 +122,13 @@ export default class Language {
       en: "The user is not found.",
       pl: "Użytkownik nie istnieje."
     },
-    passwordChanged:{
-      en:"Password is changed.",
-      pl:"Hasło zmienione"
+    passwordChanged: {
+      en: "Password changed.",
+      pl: "Hasło zmienione."
     },
-    passwordWeak:{
-      en:"Password is too weak.",
-      pl:"Hasło za słabe."
+    passwordWeak: {
+      en: "Password is too weak.",
+      pl: "Hasło za słabe."
     },
     bus: {
       en: "bus",
@@ -155,4 +155,4 @@ export default class Language {
       pl: "metro"
     }
   };
-};
+}
