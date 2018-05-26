@@ -8,7 +8,8 @@
  */
 
 #import "AppDelegate.h"
-
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <RNGoogleSignin/RNGoogleSignin.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTPushNotificationManager.h>
@@ -18,6 +19,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+  [[FBSDKApplicationDelegate sharedInstance] application:application
+                           didFinishLaunchingWithOptions:launchOptions];
   NSURL *jsCodeLocation;
 
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
@@ -37,6 +40,35 @@
   return YES;
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+  [FBSDKAppEvents activateApp];
+  
+}- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url
+   sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+  
+  return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                        openURL:url
+                                              sourceApplication:sourceApplication
+                                                     annotation:annotation
+          ]
+  || [RNGoogleSignin application:application
+                         openURL:url
+               sourceApplication:sourceApplication
+                      annotation:annotation
+      ];
+}
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  
+  BOOL handled = [[FBSDKApplicationDelegate sharedInstance] application:application
+      openURL:url
+  sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+  annotation:options[UIApplicationOpenURLOptionsAnnotationKey]
+                  ];
+  // Add any custom logic here.
+  return handled;
+}
 
 // Required to register for notifications
 - (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings
