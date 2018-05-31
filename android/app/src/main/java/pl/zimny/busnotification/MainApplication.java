@@ -19,6 +19,9 @@ import com.azendoo.reactnativesnackbar.SnackbarPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage; 
+import io.invertase.firebase.admob.RNFirebaseAdMobPackage;
+
 import io.invertase.firebase.RNFirebasePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -57,7 +60,9 @@ private static CallbackManager mCallbackManager = CallbackManager.Factory.create
             new RNFirebasePackage(),
             new RNFirebaseAuthPackage(),
             new RNFirebaseFirestorePackage(),
-            new RNFirebaseStoragePackage()
+            new RNFirebaseStoragePackage(),
+            new RNFirebaseCrashlyticsPackage(),
+            new RNFirebaseAdMobPackage()
 
       );
     }

@@ -9,6 +9,8 @@ pod 'Firebase/Core', '~> 4.13.0'
 pod 'Firebase/Auth'
 pod 'Firebase/Firestore'
 pod 'GoogleSignIn'
-
+pod 'Fabric', '~> 1.7.7'
+pod 'Crashlytics', '~> 3.10.2'
+pod 'Firebase/AdMob'
 
 end

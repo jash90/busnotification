@@ -977,6 +977,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				887C818B5D0E9BB706FC5642 /* [CP] Copy Pods Resources */,
+				C93A34EA20BF281000134C3C /* Crashlytics run script */,
 			);
 			buildRules = (
 			);
@@ -1625,6 +1626,20 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BusNotification/Pods-BusNotification-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C93A34EA20BF281000134C3C /* Crashlytics run script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Crashlytics run script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 

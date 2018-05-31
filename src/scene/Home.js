@@ -47,7 +47,10 @@ import BusNotification from "@components/bus-notification";
 import PushNotification from "react-native-push-notification";
 import AppLink from "react-native-app-link";
 import PushNotificationAndroid from "react-native-push-notification";
-
+const Banner = firebase.admob.Banner;
+const AdRequest = firebase.admob.AdRequest;
+const request = new AdRequest();
+request.addKeyword('foobar');
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -126,6 +129,18 @@ export default class Home extends Component {
             onPress={() => Actions.Edit({ userId: this.props.userId })}
             icon={"md-add"}
           />
+            <Banner
+            unitId={"ca-app-pub-6050856662811628/6621133969"}
+            size={"SMART_BANNER"}
+            request={
+              request.build()
+            }
+            onAdLoaded={
+              () => {
+                console.log('Advert loaded');
+              }
+            }
+            />
         </View>
       </Container>
     );
