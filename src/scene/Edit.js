@@ -140,7 +140,33 @@ export default class Edit extends Component {
           .item
           .doc
           .ref
-          .update({time: this.state.time, direction: this.state.direction, transport: this.state.transport, active: false});
+          .update({time: this.state.time, direction: this.state.direction, transport: this.state.transport});
+        if (this.props.item.active) {
+
+          PushNotification.cancelLocalNotifications({id: this.props.item.id});
+
+          var dateNotification = Moment().set({
+            hours: Moment(this.state.time).hours(),
+            minutes: Moment(this.state.time).minutes(),
+            seconds: 0
+          });
+
+          if (Moment().isAfter(dateNotification)) {
+            dateNotification.add(1, 'day');
+          }
+
+          dateNotification = dateNotification.toDate();
+
+          PushNotification.localNotificationSchedule({
+            id: this.props.item.id,
+            autoCancel: false,
+            color: Color.primaryColor,
+            title: Language.get("appName"),
+            message: this.state.direction + " " + Moment(this.state.time).format("HH:mm") + " " + Language.get(this.state.transport),
+            repeatType: "day",
+            date: dateNotification
+          });
+        }
       }
     } else {
       this

@@ -29,7 +29,7 @@ export default class BusNotification extends Component {
   componentWillMount = () => {
     PushNotification.configure({
       onRegister: function (token) {
-          console.log("TOKEN:", token);
+          console.log(token);
       },
       onNotification: function (notification) {
         notification.finish(PushNotificationIOS.FetchResult.NoData);
