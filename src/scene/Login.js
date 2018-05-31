@@ -54,7 +54,6 @@ export default class Login extends Component {
     };
   }
   componentWillMount = () => {
-    // Language.setL("pl");
     firebase
       .auth()
       .onAuthStateChanged(user => {
@@ -73,7 +72,7 @@ export default class Login extends Component {
         this.setState({email});
       }
     } catch (error) {
-      //  console.log(error);
+      console.log(error);
     }
   }
   render() {
@@ -115,29 +114,26 @@ export default class Login extends Component {
       await AsyncStorage.setItem("@login:key", login);
       await AsyncStorage.setItem("@password:key", password);
     } catch (error) {
-      //  console.log(error);
+      console.log(error);
     }
   }
   googleLogin = async() => {
     try {
-      // Add any configuration settings here:
-await GoogleSignin.configure({iosClientId: '534584135151-3niv9khhf6ob9dmkj5aim0lbr5uiol5c.apps.googleusercontent.com'});
+      await GoogleSignin.configure({iosClientId: '534584135151-3niv9khhf6ob9dmkj5aim0lbr5uiol5c.apps.googleusercontent.com'});
 
       const data = await GoogleSignin.signIn();
 
-      // create a new firebase credential with the token
       const credential = firebase
         .auth
         .GoogleAuthProvider
         .credential(data.idToken, data.accessToken);
-      // login with credential
+
       const currentUser = await firebase
         .auth()
         .signInAndRetrieveDataWithCredential(credential);
 
       GoogleSignin.signOut();
 
-      // console.info(JSON.stringify(currentUser.user.toJSON()));
     } catch (error) {
       alert(error);
       console.log(error);
@@ -147,29 +143,28 @@ await GoogleSignin.configure({iosClientId: '534584135151-3niv9khhf6ob9dmkj5aim0l
     try {
       const result = await LoginManager.logInWithReadPermissions(["public_profile", "email"]);
 
-      // if (result.isCancelled) {   throw new Error("User cancelled request"); //
-      // Handle this however fits the flow of your app } console.log(`Login success
-      // with permissions: ${result.grantedPermissions.toString()}`); get the access
-      // token
+      if (result.isCancelled) {
+        throw new Error("User cancelled request");
+      }
+      console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
+
       const data = await AccessToken.getCurrentAccessToken();
 
       if (!data) {
-        // throw new Error(   "Something went wrong obtaining the users access token" );
-        // // Handle this however fits the flow of your app
+        console.log("Something went wrong obtaining the users access token");
       }
 
-      // create a new firebase credential with the token
       const credential = firebase
         .auth
         .FacebookAuthProvider
         .credential(data.accessToken);
+
       LoginManager.logOut();
-      // login with credential
+
       const currentUser = await firebase
         .auth()
         .signInAndRetrieveDataWithCredential(credential);
 
-      // console.info(JSON.stringify(currentUser.user.toJSON()));
     } catch (error) {
       alert(error);
       console.log(error);
@@ -198,7 +193,7 @@ await GoogleSignin.configure({iosClientId: '534584135151-3niv9khhf6ob9dmkj5aim0l
         if (error.code === "auth/user-disabled") {
           Toast.show(Language.get("userNotFound"), Toast.SHORT);
         }
-        // console.log(error);
+        console.log(error);
       });
   }
 }

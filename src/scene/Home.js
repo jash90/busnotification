@@ -75,7 +75,6 @@ export default class Home extends Component {
 
   componentWillUnmount = action => {
     this.unsubscribe();
-    // DeviceEventEmitter.removeListener("notificationActionReceived", action => this.notificationAction(action));
   };
 
   onCollectionUpdate = querySnapshot => {
@@ -89,15 +88,11 @@ export default class Home extends Component {
   };
 
   componentWillMount = () => {
-    // Language.setL("pl");
-    // PushNotificationAndroid.registerNotificationActions(["Yes", "No"]);
-    // DeviceEventEmitter.addListener("notificationActionReceived", action => this.notificationAction(action));
     PushNotification.configure({
       onRegister: function(token) {
-        //  console.log("TOKEN:", token);
+        console.log("TOKEN:", token);
       },
       onNotification: function(notification) {
-        //  console.log("NOTIFICATION:", notification);
         notification.finish(PushNotificationIOS.FetchResult.NoData);
       }
     });
@@ -129,18 +124,6 @@ export default class Home extends Component {
             onPress={() => Actions.Edit({ userId: this.props.userId })}
             icon={"md-add"}
           />
-            <Banner
-            unitId={"ca-app-pub-6050856662811628/6621133969"}
-            size={"SMART_BANNER"}
-            request={
-              request.build()
-            }
-            onAdLoaded={
-              () => {
-                console.log('Advert loaded');
-              }
-            }
-            />
         </View>
       </Container>
     );
