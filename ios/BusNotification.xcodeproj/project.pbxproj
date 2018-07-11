@@ -1038,7 +1038,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = JDZ3R2MK8B;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 0;
@@ -1788,9 +1788,10 @@
 			baseConfigurationReference = 1CB60282C56E8F0C3BBFCE83 /* Pods-BusNotification.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = JDZ3R2MK8B;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1821,6 +1822,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = pl.zimny.ios.busnotification;
 				PRODUCT_NAME = BusNotification;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1830,8 +1832,9 @@
 			baseConfigurationReference = 8BD8D5849E5D8D96358F11EA /* Pods-BusNotification.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = JDZ3R2MK8B;
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1862,6 +1865,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = pl.zimny.ios.busnotification;
 				PRODUCT_NAME = BusNotification;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
