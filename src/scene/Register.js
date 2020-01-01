@@ -77,6 +77,20 @@ export default class Register extends Component {
             value={this.state.repeatPassword}
             onChangeText={text => this.setState({ repeatPassword: text })}
           />
+          <Input
+            underlineColorAndroid="transparent"
+            placeholder={Language.get("repeatPassword")}
+            secureTextEntry={true}
+            value={this.state.repeatPassword}
+            onChangeText={text => this.setState({ repeatPassword: text })}
+          />
+          <Input
+            underlineColorAndroid="transparent"
+            placeholder={Language.get("repeatPassword")}
+            secureTextEntry={true}
+            value={this.state.repeatPassword}
+            onChangeText={text => this.setState({ repeatPassword: text })}
+          />
           <View style={{ marginTop: 10 }}>
             <Button
               text={Language.get("register")}
